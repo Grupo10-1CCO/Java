@@ -9,8 +9,7 @@ import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import static java.lang.Math.round;
-
-
+import java.lang.Thread;
 /**
  *
  * @author guira
@@ -23,23 +22,37 @@ public class JavaDash extends javax.swing.JFrame {
     public JavaDash() {
         initComponents();
         setTextoInicio();
-        
+        atualizarDados();
     }
     Looca looca = new Looca();
     Sistema sistema = looca.getSistema();
     String txtSistema = sistema.toString();
-    
+
     Processador processador = looca.getProcessador();
     String txtProcessador = processador.toString();
-    
+
     Memoria memoria = looca.getMemoria();
-    Long memoriaTotal = memoria.getTotal()/1024/1024/1024;
-    String txtMemoriaTotal = memoriaTotal.toString();
-    
-    Long memoriaUsada = memoria.getEmUso()/1024/1024/1024;
-    String txtMemoriaUsada = memoriaUsada.toString();
-    
-    
+    Long memoriaTotal = memoria.getTotal();
+    Double memoriaTotalDouble = memoriaTotal.doubleValue();
+    Double memoriaTotalDoubleCon = memoriaTotalDouble / 1024 / 1024 / 1024;
+    Double memoriaTotalRound = Math.round(memoriaTotalDoubleCon * 10.0) / 10.0;
+    String txtMemoriaTotal = memoriaTotalRound.toString();
+
+    Boolean capturandoDados = true;
+
+    public void atualizarDados() {
+        while (capturandoDados) {
+     
+                Long memoriaUsada = memoria.getEmUso();
+                Double memoriaUsadaDouble = memoriaUsada.doubleValue();
+                Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
+                Double memoriaUsadaRound = Math.round(memoriaUsadaDoubleCon * 10.0) / 10.0;
+                String txtMemoriaUsada = memoriaUsadaRound.toString();
+                setTextoTempoReal(txtMemoriaUsada);    
+           
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -245,9 +258,7 @@ public class JavaDash extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-       
-      
-        
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -269,7 +280,7 @@ public class JavaDash extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JavaDash.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -277,12 +288,15 @@ public class JavaDash extends javax.swing.JFrame {
             }
         });
     }
-    public void setTextoInicio(){
+
+    public void setTextoInicio() {
         txtSO.setText(txtSistema);
         txtPROC.setText(txtProcessador);
         memTot.setText(txtMemoriaTotal);
+    }
+
+    public void setTextoTempoReal(String txtMemoriaUsada) {
         memUsada.setText(txtMemoriaUsada);
-        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
