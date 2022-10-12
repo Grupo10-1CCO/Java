@@ -10,6 +10,8 @@ import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import static java.lang.Math.round;
 import java.lang.Thread;
+import java.util.TimerTask;
+import java.util.Timer;
 /**
  *
  * @author guira
@@ -19,10 +21,28 @@ public class JavaDash extends javax.swing.JFrame {
     /**
      * Creates new form JavaDash
      */
+    Timer timer = new Timer();
+    
+    TimerTask task = new TimerTask(){
+        
+        @Override
+        public void run() {          
+            Long memoriaUsada = memoria.getEmUso();
+            Double memoriaUsadaDouble = memoriaUsada.doubleValue();
+            Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
+            Double memoriaUsadaRound = Math.round(memoriaUsadaDoubleCon * 10.0) / 10.0;
+            String txtMemoriaUsada = memoriaUsadaRound.toString();
+            memUsada.setText(txtMemoriaUsada);
+            
+        }
+};
+    
+    
+    
     public JavaDash() {
+        timer.schedule(task, 2000, 5000);
         initComponents();
         setTextoInicio();
-        atualizarDados();
     }
     Looca looca = new Looca();
     Sistema sistema = looca.getSistema();
@@ -38,20 +58,12 @@ public class JavaDash extends javax.swing.JFrame {
     Double memoriaTotalRound = Math.round(memoriaTotalDoubleCon * 10.0) / 10.0;
     String txtMemoriaTotal = memoriaTotalRound.toString();
 
-    Boolean capturandoDados = true;
-
-    public void atualizarDados() {
-        while (capturandoDados) {
-     
-                Long memoriaUsada = memoria.getEmUso();
-                Double memoriaUsadaDouble = memoriaUsada.doubleValue();
-                Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
-                Double memoriaUsadaRound = Math.round(memoriaUsadaDoubleCon * 10.0) / 10.0;
-                String txtMemoriaUsada = memoriaUsadaRound.toString();
-                setTextoTempoReal(txtMemoriaUsada);    
+    
+       
+            
            
-        }
-    }
+            
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -287,17 +299,17 @@ public class JavaDash extends javax.swing.JFrame {
                 new JavaDash().setVisible(true);
             }
         });
+        
     }
-
+    
+    
     public void setTextoInicio() {
         txtSO.setText(txtSistema);
         txtPROC.setText(txtProcessador);
         memTot.setText(txtMemoriaTotal);
     }
 
-    public void setTextoTempoReal(String txtMemoriaUsada) {
-        memUsada.setText(txtMemoriaUsada);
-    }
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
