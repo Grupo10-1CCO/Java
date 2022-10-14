@@ -54,7 +54,7 @@ public class Maquina {
     
     public void gerarSerial(){
         Random gerador = new Random();
-        this.serial = gerador.nextInt(100000000, 999999999);
+        this.serial = gerador.nextInt(100000000)+999999999;
         setSerialMaquina(String.format("BRJ"+serial));
     }
     
