@@ -14,9 +14,18 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class MaquinaCrud {
     
     private JdbcTemplate jbdcTemplate;
-    
+//    private Maquina maquina;
+
     public void inserir(){
+        Maquina maquina = new Maquina();
+        maquina.gerarSerial();
+        maquina.setNome("Terminal 2");
+        maquina.setFkEmpresa(1);
         
+        Conexao conexao = new Conexao();
+        JdbcTemplate cursor = conexao.getConnection();
+        
+        cursor.update("INSERT INTO Maquina (serialMaquina, nome, fkEmpresa) VALUES (?, ?, ?);", maquina.getSerialMaquina(), maquina.getNome(), maquina.getFkEmpresa());
     }
     
 }

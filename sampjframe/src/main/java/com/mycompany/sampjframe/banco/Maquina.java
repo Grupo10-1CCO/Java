@@ -4,6 +4,8 @@
  */
 package com.mycompany.sampjframe.banco;
 
+import java.util.Random;
+
 /**
  *
  * @author Wind
@@ -15,6 +17,8 @@ public class Maquina {
     private String serialMaquina;
     private String nome;
     private Integer fkEmpresa;
+    private Integer serial;
+
 
     public Integer getIdMaquina() {
         return idMaquina;
@@ -46,6 +50,12 @@ public class Maquina {
 
     public void setFkEmpresa(Integer fkEmpresa) {
         this.fkEmpresa = fkEmpresa;
+    }
+    
+    public void gerarSerial(){
+        Random gerador = new Random();
+        this.serial = gerador.nextInt(100000000, 999999999);
+        setSerialMaquina(String.format("BRJ"+serial));
     }
     
 }
