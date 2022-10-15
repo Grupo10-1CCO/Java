@@ -31,4 +31,22 @@ public class ComponenteCrud {
         return listaComponente;
     }
     
+    public List <Componente> listarCpuMaquina(Integer idMaquina){
+        List <Componente> listaComponente;
+        listaComponente = cursor.query(String.format("SELECT * FROM Componente WHERE fkMaquina = %d AND nomeComponente LIKE 'CPU%%'", idMaquina), new BeanPropertyRowMapper(Componente.class));
+        return listaComponente;
+    }
+    
+    public List <Componente> listarRamMaquina(Integer idMaquina){
+        List <Componente> listaComponente;
+        listaComponente = cursor.query(String.format("SELECT * FROM Componente WHERE fkMaquina = %d AND nomeComponente LIKE 'RAM'", idMaquina), new BeanPropertyRowMapper(Componente.class));
+        return listaComponente;
+    }
+    
+    public List <Componente> listarDiscosMaquina(Integer idMaquina){
+        List <Componente> listaComponente;
+        listaComponente = cursor.query(String.format("SELECT * FROM Componente WHERE fkMaquina = %d AND nomeComponente LIKE 'Disco%%'", idMaquina), new BeanPropertyRowMapper(Componente.class));
+        return listaComponente;
+    }
+    
 }

@@ -18,6 +18,7 @@ import com.mycompany.sampjframe.banco.DadosCrud;
 import com.mycompany.sampjframe.banco.Maquina;
 import static java.lang.Math.round;
 import java.lang.Thread;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,9 +51,9 @@ public class JavaDash extends javax.swing.JFrame {
     
     
     public JavaDash() {
-        timer.schedule(task, 10000, 5000);
         initComponents();
         setTextoInicio();
+        timer.schedule(task, 500, 5000);
     }
     Looca looca = new Looca();
     Sistema sistema = looca.getSistema();
@@ -68,9 +69,9 @@ public class JavaDash extends javax.swing.JFrame {
     Double memoriaTotalRound = Math.round(memoriaTotalDoubleCon * 10.0) / 10.0;
     String txtMemoriaTotal = memoriaTotalRound.toString();
     
-    Componente compCpu = new Componente();
-    Componente compRam = new Componente();
-    List <Componente> discos2 = new ArrayList();
+    Componente compCpu;
+    Componente compRam;
+    List <Componente> discos2;
 
     DiscoGrupo grupoDiscos = looca.getGrupoDeDiscos();
     List<Disco> discos = grupoDiscos.getDiscos();
@@ -79,9 +80,25 @@ public class JavaDash extends javax.swing.JFrame {
     ComponenteCrud componenteCrud = new ComponenteCrud();
     List <Componente> listaComponente = new ArrayList();
     
-    Integer idMaquina = 4;
+    Integer idMaquina;
     
-    Maquina maquina = new Maquina();
+    DecimalFormat decimal2 = new DecimalFormat("###,00");
+    
+    public void setIdMaquina(Integer idMaquina){
+        this.idMaquina = idMaquina;
+    }
+    
+    public void setCpu(Componente cpu){
+        this.compCpu = cpu;
+    }
+    
+    public void setRam(Componente ram){
+        this.compRam = ram;
+    }
+    
+    public void setListaDisco(List <Componente> disco){
+        this.discos2 = disco;
+    }
     
     
     public void capturaRam(){
@@ -91,12 +108,13 @@ public class JavaDash extends javax.swing.JFrame {
                     Double memoriaUsadaDouble = memoriaUsada.doubleValue();
                     Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
                     Double memoriaUsadaRound = Math.round(memoriaUsadaDoubleCon * 10.0) / 10.0;
-                    String txtMemoriaUsada = memoriaUsadaRound.toString() + " GB";
+                    Double porcentagem = (memoriaUsadaRound * 100) / memoriaTotalRound;
+                    String txtMemoriaUsada = memoriaUsadaRound.toString() + " GB | " + porcentagem + "%";
                     memUsada.setText(txtMemoriaUsada);
                     Dados dados = new Dados();
                     DadosCrud dadosCrud = new DadosCrud();
                     dados.setFkComponente(compRam.getIdComponente());
-                    dados.setRegistro(memoriaUsadaRound);
+                    dados.setRegistro(porcentagem);
                     dados.setMomento(new Date());
                     dadosCrud.inserirDados(dados);
                 
@@ -135,12 +153,18 @@ public class JavaDash extends javax.swing.JFrame {
                             Double volumeDisponivel = volumeDisponivelLong.doubleValue();
                             volumeDisponivel = volumeDisponivel / 1024 / 1024 / 1024;
                             volumeDisponivel = Math.round(volumeDisponivel * 10.0) / 10.0;
-                            txtDiscoUsado += volume.getPontoDeMontagem() + ": " + volumeDisponivel.toString() + " GB\n\n";
+                            Long volumeTotalLong = volume.getTotal();
+                            Double volumeTotal = volumeTotalLong.doubleValue();
+                            volumeTotal = volumeTotal / 1024 / 1024 / 1024;
+                            volumeTotal = Math.round(volumeTotal * 10.0) / 10.0;
+                            Double porcentagem = (volumeDisponivel * 100) / volumeTotal;
+                            porcentagem = Math.round(porcentagem * 100.0) / 100.0;
+                            txtDiscoUsado += volume.getPontoDeMontagem() + ": " + volumeDisponivel.toString() + " GB\nPorcentagem: " + porcentagem + "%\n\n";
                             txtUsoDiscos.setText(txtDiscoUsado);
                             Dados dados = new Dados();
                             DadosCrud dadosCrud = new DadosCrud();
                             dados.setFkComponente(disco.getIdComponente());
-                            dados.setRegistro(volumeDisponivel);
+                            dados.setRegistro(porcentagem);
                             dados.setMomento(new Date());
                             dadosCrud.inserirDados(dados);
                         }
@@ -514,69 +538,21 @@ public class JavaDash extends javax.swing.JFrame {
     
     
     public void setTextoInicio() {
-        listaComponente = componenteCrud.listarFkComponenteMaquina(idMaquina);
-        compCpu.setNomeComponente("CPU " + processador.getNome());
-        compCpu.setCapacidadeMaxima(null);
-        compCpu.setFkMaquina(idMaquina);
-        compCpu.setFkMedida(1);
-        compCpu.setFkMetrica(null);
-
-        componenteCrud.inserirComponente(compCpu);
-        
-        compRam.setNomeComponente("RAM");
-        compRam.setCapacidadeMaxima(memoriaTotalRound);
-        compRam.setFkMaquina(idMaquina);
-        compRam.setFkMedida(1);
-        compRam.setFkMetrica(null);
-        
-        componenteCrud.inserirComponente(compRam);
         
         txtSO.setText(txtSistema);
         txtPROC.setText(txtProcessador);
         memTot.setText(txtMemoriaTotal);
         String stringDiscos = "";
         for(Volume volume : volumes){
-            Componente disco = new Componente();
-            disco.setNomeComponente("Disco: " + volume.getPontoDeMontagem());
             stringDiscos += "Disco: " + volume.getPontoDeMontagem() + "\n";
             Long volumeTotalLong = volume.getTotal();
             Double volumeTotal = volumeTotalLong.doubleValue();
             volumeTotal = volumeTotal / 1024 / 1024 / 1024;
             volumeTotal = Math.round(volumeTotal * 10.0) / 10.0;
-            disco.setCapacidadeMaxima(volumeTotal);
             stringDiscos += "Tamanho: " + volumeTotal  + " GB" + "\n";
             stringDiscos += "\n";
-            disco.setFkMaquina(idMaquina);
-            disco.setFkMedida(1);
-            disco.setFkMetrica(null);
-            
-            componenteCrud.inserirComponente(disco);
-            
         }
         txtDiscos.setText(stringDiscos);
-
-        for(Componente componente : listaComponente){
-            String tipoComponente = componente.getNomeComponente().substring(0, 3);
-            if(tipoComponente.equalsIgnoreCase("RAM")){
-                compRam.setIdComponente(componente.getIdComponente());
-            }else if(tipoComponente.equalsIgnoreCase("CPU")){
-                compCpu.setIdComponente(componente.getIdComponente());
-            }else if(tipoComponente.equalsIgnoreCase("DIS")){
-                for(Volume volume : volumes){
-                    Componente disco = new Componente();
-                    disco.setNomeComponente("Disco: " + volume.getPontoDeMontagem());
-                    Long volumeTotalLong = volume.getTotal();
-                    Double volumeTotal = volumeTotalLong.doubleValue();
-                    volumeTotal = volumeTotal / 1024 / 1024 / 1024;
-                    volumeTotal = Math.round(volumeTotal * 10.0) / 10.0;
-                    disco.setCapacidadeMaxima(volumeTotal);
-                    disco.setFkMaquina(idMaquina);
-                    disco.setFkMedida(1);
-                    disco.setFkMetrica(null);
-                    discos2.add(disco);
-                }
-            }
-        }
         
     }
 

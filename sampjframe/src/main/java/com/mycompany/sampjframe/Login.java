@@ -4,9 +4,29 @@
  */
 package com.mycompany.sampjframe;
 
+import com.github.britooo.looca.api.core.Looca;
+import com.github.britooo.looca.api.group.discos.Disco;
+import com.github.britooo.looca.api.group.discos.DiscoGrupo;
+import com.github.britooo.looca.api.group.discos.Volume;
+import com.github.britooo.looca.api.group.memoria.Memoria;
+import com.github.britooo.looca.api.group.processador.Processador;
 import com.mycompany.sampjframe.banco.AutenticacaoApi;
 import com.mycompany.sampjframe.banco.UsuarioEmpresa;
 import com.mycompany.sampjframe.banco.AutenticacaoApiCrud;
+import com.mycompany.sampjframe.banco.Componente;
+import com.mycompany.sampjframe.banco.ComponenteCrud;
+import com.mycompany.sampjframe.banco.Maquina;
+import com.mycompany.sampjframe.banco.MaquinaCrud;
+import com.mycompany.sampjframe.banco.UsuarioEmpresaCrud;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,9 +39,14 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+//        txtSerialGerado.setVisible(false);
     }
     
-    JavaDash janela2 = new JavaDash();
+    Componente compCpu = new Componente();
+    Componente compRam = new Componente();
+    List <Componente> discos2 = new ArrayList();
+    
+    ComponenteCrud componenteCrud = new ComponenteCrud();
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,6 +57,7 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollBar1 = new javax.swing.JScrollBar();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -45,6 +71,7 @@ public class Login extends javax.swing.JFrame {
         tfSenha = new javax.swing.JPasswordField();
         tfSerial = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        btnCadastrarMaquina = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,6 +144,11 @@ public class Login extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 51, 255));
         jLabel5.setText("Cadastrar-se");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         tfSerial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,54 +159,68 @@ public class Login extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel6.setText("Serial do servidor");
 
+        btnCadastrarMaquina.setBackground(new java.awt.Color(77, 158, 65));
+        btnCadastrarMaquina.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnCadastrarMaquina.setForeground(new java.awt.Color(255, 255, 255));
+        btnCadastrarMaquina.setText("Cadastrar Servidor");
+        btnCadastrarMaquina.setBorder(null);
+        btnCadastrarMaquina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarMaquinaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3)
-                                .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4)
-                                .addComponent(tfSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel6))
-                            .addGap(68, 68, 68))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(104, 104, 104)))))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addComponent(jLabel5)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(104, 104, 104))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(jLabel5)
+                                .addGap(56, 56, 56))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btLogar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3)
+                                .addComponent(tfEmail)
+                                .addComponent(tfSerial)
+                                .addComponent(jLabel6)
+                                .addComponent(tfSenha)
+                                .addComponent(jLabel4)
+                                .addComponent(btnCadastrarMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(64, 64, 64))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCadastrarMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(btLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -213,17 +259,154 @@ public class Login extends javax.swing.JFrame {
         autenticacaoApi = usuarioEmpCrud.selecionar(email, senha, serial);
         
         
-        if(email.equalsIgnoreCase(autenticacaoApi.getEmailUsuario()) && senha.equalsIgnoreCase(autenticacaoApi.getSenha()) && serial.equalsIgnoreCase(autenticacaoApi.getSerialMaquina())){
-            janela2.setLocationRelativeTo(null);
-            janela2.setVisible(true);
-            janela2.setResizable(false);
-            this.dispose();
+        if(email.equalsIgnoreCase(autenticacaoApi.getEmailUsuario()) && serial.equalsIgnoreCase(autenticacaoApi.getSerialMaquina())){
+            
+                List <Componente> listaCpu = componenteCrud.listarCpuMaquina(autenticacaoApi.getIdMaquina());
+                List <Componente> listaRam = componenteCrud.listarRamMaquina(autenticacaoApi.getIdMaquina());
+                List <Componente> listaDisco = componenteCrud.listarDiscosMaquina(autenticacaoApi.getIdMaquina());
+                
+                for(Componente cpu : listaCpu){
+                    compCpu = cpu;
+                }
+                
+                for(Componente ram : listaRam){
+                    compRam = ram;
+                }
+                
+                for(Componente disco : listaDisco){
+                    discos2.add(disco);
+                }
+                
+                JavaDash janela2 = new JavaDash();
+                janela2.setIdMaquina(autenticacaoApi.getIdMaquina());
+                janela2.setCpu(compCpu);
+                janela2.setRam(compRam);
+                janela2.setListaDisco(discos2);
+                janela2.setLocationRelativeTo(null);
+                janela2.setVisible(true);
+                janela2.setResizable(false);
+                this.dispose();
         }
     }//GEN-LAST:event_btLogarActionPerformed
 
     private void tfSerialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSerialActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfSerialActionPerformed
+
+    private void btnCadastrarMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarMaquinaActionPerformed
+        UsuarioEmpresaCrud usuarioEmpCrud = new UsuarioEmpresaCrud();
+        UsuarioEmpresa usuarioEmpresa = new UsuarioEmpresa();
+        String email = tfEmail.getText();
+        String senha = tfSenha.getText();
+        
+        usuarioEmpresa = usuarioEmpCrud.validarLogin(email, senha);
+        
+        
+        if(email.equalsIgnoreCase(usuarioEmpresa.getEmailUsuario())){
+            Maquina maquina = new Maquina();
+            maquina.setFkEmpresa(usuarioEmpresa.getIdEmpresa());
+            maquina.setNome("Servidor PIX");
+            maquina.gerarSerial();
+            
+            MaquinaCrud maquinaCrud = new MaquinaCrud();
+            
+            maquinaCrud.inserir(maquina);
+            
+            Looca looca = new Looca();
+            
+            Processador processador = looca.getProcessador();
+            
+            Memoria memoria = looca.getMemoria();
+            Long memoriaTotal = memoria.getTotal();
+            Double memoriaTotalDouble = memoriaTotal.doubleValue();
+            Double memoriaTotalDoubleCon = memoriaTotalDouble / 1024 / 1024 / 1024;
+            Double memoriaTotalRound = Math.round(memoriaTotalDoubleCon * 10.0) / 10.0;
+            
+            DiscoGrupo grupoDiscos = looca.getGrupoDeDiscos();
+            List<Volume> volumes = grupoDiscos.getVolumes();
+            
+            List <Maquina> ultimaMaquina = new ArrayList();
+            ultimaMaquina = maquinaCrud.selectUltimaMaquina();
+
+            for(Maquina retornoMaquina : ultimaMaquina){
+                List <Componente> listaComponente;
+                
+                listaComponente = componenteCrud.listarFkComponenteMaquina(retornoMaquina.getIdMaquina());
+                compCpu.setNomeComponente("CPU " + processador.getNome());
+                compCpu.setCapacidadeMaxima(null);
+                compCpu.setFkMaquina(retornoMaquina.getIdMaquina());
+                compCpu.setFkMedida(1);
+                compCpu.setFkMetrica(null);
+
+                componenteCrud.inserirComponente(compCpu);
+
+                compRam.setNomeComponente("RAM");
+                compRam.setCapacidadeMaxima(memoriaTotalRound);
+                compRam.setFkMaquina(retornoMaquina.getIdMaquina());
+                compRam.setFkMedida(1);
+                compRam.setFkMetrica(null);
+
+                componenteCrud.inserirComponente(compRam);
+
+                for(Volume volume : volumes){
+                    Componente disco = new Componente();
+                    disco.setNomeComponente("Disco: " + volume.getPontoDeMontagem());
+                    Long volumeTotalLong = volume.getTotal();
+                    Double volumeTotal = volumeTotalLong.doubleValue();
+                    volumeTotal = volumeTotal / 1024 / 1024 / 1024;
+                    volumeTotal = Math.round(volumeTotal * 10.0) / 10.0;
+                    disco.setCapacidadeMaxima(volumeTotal);
+                    disco.setFkMaquina(retornoMaquina.getIdMaquina());
+                    disco.setFkMedida(1);
+                    disco.setFkMetrica(null);
+                    componenteCrud.inserirComponente(disco);
+
+                }
+                
+                List <Componente> listaCpu = componenteCrud.listarCpuMaquina(retornoMaquina.getIdMaquina());
+                List <Componente> listaRam = componenteCrud.listarRamMaquina(retornoMaquina.getIdMaquina());
+                List <Componente> listaDisco = componenteCrud.listarDiscosMaquina(retornoMaquina.getIdMaquina());
+                
+                for(Componente cpu : listaCpu){
+                    compCpu = cpu;
+                }
+                
+                for(Componente ram : listaRam){
+                    compRam = ram;
+                }
+                
+                for(Componente disco : listaDisco){
+                    discos2.add(disco);
+                }
+                
+                JavaDash janela2 = new JavaDash();
+                janela2.setIdMaquina(retornoMaquina.getIdMaquina());
+                janela2.setCpu(compCpu);
+                janela2.setRam(compRam);
+                janela2.setListaDisco(discos2);
+                janela2.setLocationRelativeTo(null);
+                janela2.setVisible(true);
+                janela2.setResizable(false);
+                
+                SerialMaquina serial = new SerialMaquina();
+                serial.setSerialMaquina(retornoMaquina.getSerialMaquina());
+                serial.setLocationRelativeTo(null);
+                serial.setVisible(true);
+                serial.setResizable(false);
+                
+                this.dispose();
+            }
+            
+        }
+    }//GEN-LAST:event_btnCadastrarMaquinaActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+         try {
+            Desktop.getDesktop().browse(new URI("http://www.youtube.com"));
+        } catch (IOException | URISyntaxException e1) {
+            e1.printStackTrace();
+        }
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
@@ -262,6 +445,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogar;
+    private javax.swing.JButton btnCadastrarMaquina;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -271,6 +455,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JPasswordField tfSenha;
     private javax.swing.JTextField tfSerial;

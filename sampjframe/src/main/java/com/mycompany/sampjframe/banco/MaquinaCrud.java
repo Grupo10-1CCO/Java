@@ -19,16 +19,12 @@ public class MaquinaCrud {
     Maquina maquina = new Maquina();
 //    private Maquina maquina;
 
-    public void inserir(){
-        
-        maquina.gerarSerial();
-        maquina.setNome("Terminal 2");
-        maquina.setFkEmpresa(1);
+    public void inserir(Maquina maquina){
         
         Conexao conexao = new Conexao();
         JdbcTemplate cursor = conexao.getConnection();
         
-        cursor.update("INSERT INTO Maquina (serialMaquina, nome, fkEmpresa) VALUES (?, ?, ?);", maquina.getSerialMaquina(), maquina.getNome(), maquina.getFkEmpresa());
+        cursor.update(String.format("INSERT INTO Maquina (serialMaquina, nome, fkEmpresa) VALUES ('%s', '%s', %d);", maquina.getSerialMaquina(), maquina.getNome(), maquina.getFkEmpresa()));
     }
     
     public List<Maquina> selectTodasMaquinas(){
@@ -44,6 +40,14 @@ public class MaquinaCrud {
         JdbcTemplate cursor = conexao.getConnection();
         List <Maquina> listaMaquinas;
         listaMaquinas = cursor.query(String.format("SELECT * FROM Maquina WHERE serialMaquina LIKE '%s'", serialMaquina), new BeanPropertyRowMapper(Maquina.class));
+        return listaMaquinas;
+    }
+    
+    public List<Maquina> selectUltimaMaquina(){
+        Conexao conexao = new Conexao();
+        JdbcTemplate cursor = conexao.getConnection();
+        List <Maquina> listaMaquinas;
+        listaMaquinas = cursor.query("SELECT * FROM Maquina WHERE idMaquina = (SELECT MAX(idMaquina) FROM Maquina);", new BeanPropertyRowMapper(Maquina.class));
         return listaMaquinas;
     }
     
