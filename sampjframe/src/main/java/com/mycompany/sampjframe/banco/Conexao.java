@@ -22,7 +22,7 @@ public class Conexao {
 
         dataSource​.setUrl("jdbc:mysql://localhost:3306/SAMP");
 
-        dataSource​.setUsername("user_atividePI");
+        dataSource​.setUsername("aluno");
 
         dataSource​.setPassword("sptech");
 

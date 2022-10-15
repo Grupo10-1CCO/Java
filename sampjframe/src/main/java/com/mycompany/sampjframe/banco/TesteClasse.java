@@ -11,12 +11,15 @@ package com.mycompany.sampjframe.banco;
 public class TesteClasse {
     
     public static void main(String[]args){
-        
-        Maquina maquina = new Maquina();
-        MaquinaCrud banco = new MaquinaCrud();
-//        maquina.gerarSerial();
-//        System.out.println(maquina.getSerialMaquina());
-        banco.inserir();
+//        
+//        Maquina maquina = new Maquina();
+//        MaquinaCrud banco = new MaquinaCrud();
+////        maquina.gerarSerial();
+////        System.out.println(maquina.getSerialMaquina());
+//        banco.inserir();
+//        UsuarioEmpresaCrud usuarioEmpCrud = new UsuarioEmpresaCrud();
+//        usuarioEmpCrud.selecionar();
+
     }
     
 }

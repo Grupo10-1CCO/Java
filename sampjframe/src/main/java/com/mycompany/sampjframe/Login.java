@@ -4,6 +4,10 @@
  */
 package com.mycompany.sampjframe;
 
+import com.mycompany.sampjframe.banco.AutenticacaoApi;
+import com.mycompany.sampjframe.banco.UsuarioEmpresa;
+import com.mycompany.sampjframe.banco.AutenticacaoApiCrud;
+
 /**
  *
  * @author guira
@@ -33,7 +37,7 @@ public class Login extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        tfLogin = new javax.swing.JTextField();
+        tfEmail = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btLogar = new javax.swing.JButton();
@@ -87,14 +91,14 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setText("Bem - Vindo");
 
-        tfLogin.addActionListener(new java.awt.event.ActionListener() {
+        tfEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfLoginActionPerformed(evt);
+                tfEmailActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel3.setText("Login");
+        jLabel3.setText("E-mail");
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel4.setText("Senha");
@@ -136,7 +140,7 @@ public class Login extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(btLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel3)
-                                .addComponent(tfLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel4)
                                 .addComponent(tfSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel6))
@@ -157,7 +161,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -195,16 +199,21 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfLoginActionPerformed
+    private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfLoginActionPerformed
+    }//GEN-LAST:event_tfEmailActionPerformed
 
     private void btLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogarActionPerformed
-        String login = tfLogin.getText();
+        AutenticacaoApiCrud usuarioEmpCrud = new AutenticacaoApiCrud();
+        AutenticacaoApi autenticacaoApi = new AutenticacaoApi();
+        String email = tfEmail.getText();
         String senha =  tfSenha.getText();
         String serial = tfSerial.getText();
         
-        if(login.equalsIgnoreCase("samp") && senha.equalsIgnoreCase("123") && serial.equalsIgnoreCase("321")){
+        autenticacaoApi = usuarioEmpCrud.selecionar(email, senha, serial);
+        
+        
+        if(email.equalsIgnoreCase(autenticacaoApi.getEmailUsuario()) && senha.equalsIgnoreCase(autenticacaoApi.getSenha()) && serial.equalsIgnoreCase(autenticacaoApi.getSerialMaquina())){
             janela2.setLocationRelativeTo(null);
             janela2.setVisible(true);
             janela2.setResizable(false);
@@ -262,7 +271,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField tfLogin;
+    private javax.swing.JTextField tfEmail;
     private javax.swing.JPasswordField tfSenha;
     private javax.swing.JTextField tfSerial;
     // End of variables declaration//GEN-END:variables
