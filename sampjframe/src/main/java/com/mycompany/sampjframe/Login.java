@@ -207,7 +207,7 @@ public class Login extends javax.swing.JFrame {
         AutenticacaoApiCrud usuarioEmpCrud = new AutenticacaoApiCrud();
         AutenticacaoApi autenticacaoApi = new AutenticacaoApi();
         String email = tfEmail.getText();
-        String senha =  tfSenha.getText();
+        String senha = tfSenha.getText();
         String serial = tfSerial.getText();
         
         autenticacaoApi = usuarioEmpCrud.selecionar(email, senha, serial);

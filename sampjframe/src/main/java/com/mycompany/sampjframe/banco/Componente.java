@@ -3,18 +3,22 @@ package com.mycompany.sampjframe.banco;
 public class Componente {
     private Integer idComponente;
     private String nomeComponente;
-    private Double capacidadeMaxima;
-    private String fkMaquina;
+    private Double tamanho;
+    private Integer fkMaquina;
     private Integer fkMetrica;
     private Integer fkMedida;
 
-    public Componente(Integer idComponente, String nomeComponente, Double capacidadeMaxima, String fkMaquina, Integer fkMetrica, Integer fkMedida) {
+    public Componente(Integer idComponente, String nomeComponente, Double capacidadeMaxima, Integer fkMaquina, Integer fkMetrica, Integer fkMedida) {
         this.idComponente = idComponente;
         this.nomeComponente = nomeComponente;
-        this.capacidadeMaxima = capacidadeMaxima;
+        this.tamanho = capacidadeMaxima;
         this.fkMaquina = fkMaquina;
         this.fkMetrica = fkMetrica;
         this.fkMedida = fkMedida;
+    }
+    
+    public Componente(){
+        
     }
 
     
@@ -34,19 +38,19 @@ public class Componente {
         this.nomeComponente = nomeComponente;
     }
 
-    public Double getCapacidadeMaxima() {
-        return capacidadeMaxima;
+    public Double getTamanho() {
+        return tamanho;
     }
 
-    public void setCapacidadeMaxima(Double capacidadeMaxima) {
-        this.capacidadeMaxima = capacidadeMaxima;
+    public void setCapacidadeMaxima(Double tamanho) {
+        this.tamanho = tamanho;
     }
 
-    public String getFkMaquina() {
+    public Integer getFkMaquina() {
         return fkMaquina;
     }
 
-    public void setFkMaquina(String fkMaquina) {
+    public void setFkMaquina(Integer fkMaquina) {
         this.fkMaquina = fkMaquina;
     }
 

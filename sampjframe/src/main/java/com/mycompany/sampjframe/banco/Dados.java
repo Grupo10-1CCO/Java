@@ -1,18 +1,24 @@
 
 package com.mycompany.sampjframe.banco;
 
+import java.util.Date;
+
 public class Dados {
     private Integer idRegistro;
     private Double registro;
-    private String momento;
+    private Date momento;
     private Integer fkComponente;
     // ^^^^^^^^^^^^^^^^^ CORRIGIR PARA FORMATO DE DATA ANTES DE COMEÇAR A INSERIR NO BANCO       
 
     public Dados(Integer idRegistro, Double registro, String momento, Integer fkComponente) {
         this.idRegistro = idRegistro;
         this.registro = registro;
-        this.momento = momento;
+        this.momento = new Date();
         this.fkComponente = fkComponente;
+    }
+    
+    public Dados(){
+        
     }
     
     public Integer getIdRegistro() {
@@ -31,11 +37,11 @@ public class Dados {
         this.registro = registro;
     }
 
-    public String getMomento() {
+    public Date getMomento() {
         return momento;
     }
 
-    public void setMomento(String momento) {
+    public void setMomento(Date momento) {
         this.momento = momento;
     }
 

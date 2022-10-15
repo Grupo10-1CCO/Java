@@ -11,9 +11,15 @@ import com.github.britooo.looca.api.group.discos.Volume;
 import com.github.britooo.looca.api.group.memoria.Memoria;
 import com.github.britooo.looca.api.group.processador.Processador;
 import com.github.britooo.looca.api.group.sistema.Sistema;
+import com.mycompany.sampjframe.banco.Componente;
+import com.mycompany.sampjframe.banco.ComponenteCrud;
+import com.mycompany.sampjframe.banco.Dados;
+import com.mycompany.sampjframe.banco.DadosCrud;
 import com.mycompany.sampjframe.banco.Maquina;
 import static java.lang.Math.round;
 import java.lang.Thread;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.Timer;
@@ -32,16 +38,19 @@ public class JavaDash extends javax.swing.JFrame {
         
         @Override
         public void run() {          
-            capturaRam();
-            capturaCpu();
-            capturaDiscos();
+//            capturaRam();
+//            capturaCpu();
+//            capturaDiscos();
+              capturaCpu();
+              capturaRam();
+              capturaDiscos();
         }
 };
     
     
     
     public JavaDash() {
-        timer.schedule(task, 2000, 5000);
+        timer.schedule(task, 10000, 5000);
         initComponents();
         setTextoInicio();
     }
@@ -58,40 +67,87 @@ public class JavaDash extends javax.swing.JFrame {
     Double memoriaTotalDoubleCon = memoriaTotalDouble / 1024 / 1024 / 1024;
     Double memoriaTotalRound = Math.round(memoriaTotalDoubleCon * 10.0) / 10.0;
     String txtMemoriaTotal = memoriaTotalRound.toString();
+    
+    Componente compCpu = new Componente();
+    Componente compRam = new Componente();
+    List <Componente> discos2 = new ArrayList();
 
     DiscoGrupo grupoDiscos = looca.getGrupoDeDiscos();
     List<Disco> discos = grupoDiscos.getDiscos();
     List<Volume> volumes = grupoDiscos.getVolumes();
     
+    ComponenteCrud componenteCrud = new ComponenteCrud();
+    List <Componente> listaComponente = new ArrayList();
+    
+    Integer idMaquina = 4;
+    
     Maquina maquina = new Maquina();
     
     
     public void capturaRam(){
-        Long memoriaUsada = memoria.getEmUso();
-        Double memoriaUsadaDouble = memoriaUsada.doubleValue();
-        Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
-        Double memoriaUsadaRound = Math.round(memoriaUsadaDoubleCon * 10.0) / 10.0;
-        String txtMemoriaUsada = memoriaUsadaRound.toString() + " GB";
-        memUsada.setText(txtMemoriaUsada);
+        
+        
+                    Long memoriaUsada = memoria.getEmUso();
+                    Double memoriaUsadaDouble = memoriaUsada.doubleValue();
+                    Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
+                    Double memoriaUsadaRound = Math.round(memoriaUsadaDoubleCon * 10.0) / 10.0;
+                    String txtMemoriaUsada = memoriaUsadaRound.toString() + " GB";
+                    memUsada.setText(txtMemoriaUsada);
+                    Dados dados = new Dados();
+                    DadosCrud dadosCrud = new DadosCrud();
+                    dados.setFkComponente(compRam.getIdComponente());
+                    dados.setRegistro(memoriaUsadaRound);
+                    dados.setMomento(new Date());
+                    dadosCrud.inserirDados(dados);
+                
+        
+        
+        
     }
     
     public void capturaCpu(){
-        Double usoCpu = processador.getUso();
-        usoCpu = Math.round(usoCpu * 10.0) / 10.0;
-        String txtUsoCpu = processador.getNome() + ":\n" + usoCpu.toString() + " %";
-        txtUsoProcessador.setText(txtUsoCpu);
+        
+                    Double usoCpu = processador.getUso();
+                    usoCpu = Math.round(usoCpu * 10.0) / 10.0;
+                    String txtUsoCpu = processador.getNome() + ":\n" + usoCpu.toString() + " %";
+                    txtUsoProcessador.setText(txtUsoCpu);
+                    Dados dados = new Dados();
+                    DadosCrud dadosCrud = new DadosCrud();
+                    dados.setFkComponente(compCpu.getIdComponente());
+                    dados.setRegistro(usoCpu);
+                    dados.setMomento(new Date());
+                    dadosCrud.inserirDados(dados);
+                
+        
+        
     }
     
     public void capturaDiscos() {
-        String txtDiscoUsado = "";
-        for(Volume volume : volumes){
-            Long volumeDisponivelLong = volume.getDisponivel();
-            Double volumeDisponivel = volumeDisponivelLong.doubleValue();
-            volumeDisponivel = volumeDisponivel / 1024 / 1024 / 1024;
-            volumeDisponivel = Math.round(volumeDisponivel * 10.0) / 10.0;
-            txtDiscoUsado += volume.getPontoDeMontagem() + ": " + volumeDisponivel.toString() + " GB\n\n";
-            txtUsoDiscos.setText(txtDiscoUsado);
-        }
+        
+                String txtDiscoUsado = "";
+                for(Volume volume : volumes){
+                    for(Componente disco : discos2){
+//                        txtUsoDiscos.setText(volume.getPontoDeMontagem());
+                        String pontoMontagem = "Disco: "+volume.getPontoDeMontagem();
+                        txtUsoDiscos.setText(pontoMontagem);
+                        if(pontoMontagem.equalsIgnoreCase(disco.getNomeComponente())){
+                            Long volumeDisponivelLong = volume.getDisponivel();
+                            Double volumeDisponivel = volumeDisponivelLong.doubleValue();
+                            volumeDisponivel = volumeDisponivel / 1024 / 1024 / 1024;
+                            volumeDisponivel = Math.round(volumeDisponivel * 10.0) / 10.0;
+                            txtDiscoUsado += volume.getPontoDeMontagem() + ": " + volumeDisponivel.toString() + " GB\n\n";
+                            txtUsoDiscos.setText(txtDiscoUsado);
+                            Dados dados = new Dados();
+                            DadosCrud dadosCrud = new DadosCrud();
+                            dados.setFkComponente(disco.getIdComponente());
+                            dados.setRegistro(volumeDisponivel);
+                            dados.setMomento(new Date());
+                            dadosCrud.inserirDados(dados);
+                        }
+                    }
+                    
+                    
+                }
     }
             
            
@@ -225,7 +281,7 @@ public class JavaDash extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 97, Short.MAX_VALUE))
+                        .addGap(0, 105, Short.MAX_VALUE))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
@@ -365,7 +421,7 @@ public class JavaDash extends javax.swing.JFrame {
                     .addComponent(jScrollPane5)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 103, Short.MAX_VALUE)))
+                        .addGap(0, 111, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -445,6 +501,7 @@ public class JavaDash extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JavaDash.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -457,20 +514,69 @@ public class JavaDash extends javax.swing.JFrame {
     
     
     public void setTextoInicio() {
+        listaComponente = componenteCrud.listarFkComponenteMaquina(idMaquina);
+        compCpu.setNomeComponente("CPU " + processador.getNome());
+        compCpu.setCapacidadeMaxima(null);
+        compCpu.setFkMaquina(idMaquina);
+        compCpu.setFkMedida(1);
+        compCpu.setFkMetrica(null);
+
+        componenteCrud.inserirComponente(compCpu);
+        
+        compRam.setNomeComponente("RAM");
+        compRam.setCapacidadeMaxima(memoriaTotalRound);
+        compRam.setFkMaquina(idMaquina);
+        compRam.setFkMedida(1);
+        compRam.setFkMetrica(null);
+        
+        componenteCrud.inserirComponente(compRam);
+        
         txtSO.setText(txtSistema);
         txtPROC.setText(txtProcessador);
         memTot.setText(txtMemoriaTotal);
         String stringDiscos = "";
         for(Volume volume : volumes){
+            Componente disco = new Componente();
+            disco.setNomeComponente("Disco: " + volume.getPontoDeMontagem());
             stringDiscos += "Disco: " + volume.getPontoDeMontagem() + "\n";
             Long volumeTotalLong = volume.getTotal();
             Double volumeTotal = volumeTotalLong.doubleValue();
             volumeTotal = volumeTotal / 1024 / 1024 / 1024;
             volumeTotal = Math.round(volumeTotal * 10.0) / 10.0;
+            disco.setCapacidadeMaxima(volumeTotal);
             stringDiscos += "Tamanho: " + volumeTotal  + " GB" + "\n";
             stringDiscos += "\n";
+            disco.setFkMaquina(idMaquina);
+            disco.setFkMedida(1);
+            disco.setFkMetrica(null);
+            
+            componenteCrud.inserirComponente(disco);
+            
         }
         txtDiscos.setText(stringDiscos);
+
+        for(Componente componente : listaComponente){
+            String tipoComponente = componente.getNomeComponente().substring(0, 3);
+            if(tipoComponente.equalsIgnoreCase("RAM")){
+                compRam.setIdComponente(componente.getIdComponente());
+            }else if(tipoComponente.equalsIgnoreCase("CPU")){
+                compCpu.setIdComponente(componente.getIdComponente());
+            }else if(tipoComponente.equalsIgnoreCase("DIS")){
+                for(Volume volume : volumes){
+                    Componente disco = new Componente();
+                    disco.setNomeComponente("Disco: " + volume.getPontoDeMontagem());
+                    Long volumeTotalLong = volume.getTotal();
+                    Double volumeTotal = volumeTotalLong.doubleValue();
+                    volumeTotal = volumeTotal / 1024 / 1024 / 1024;
+                    volumeTotal = Math.round(volumeTotal * 10.0) / 10.0;
+                    disco.setCapacidadeMaxima(volumeTotal);
+                    disco.setFkMaquina(idMaquina);
+                    disco.setFkMedida(1);
+                    disco.setFkMetrica(null);
+                    discos2.add(disco);
+                }
+            }
+        }
         
     }
 
