@@ -604,7 +604,7 @@ public class JavaDash extends javax.swing.JFrame {
             stringDiscos += "\n";
         }
         txtDiscos.setText(stringDiscos);
-        
+        capturaProcessos();
     }
 
    
