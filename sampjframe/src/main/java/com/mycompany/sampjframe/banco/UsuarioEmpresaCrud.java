@@ -19,7 +19,7 @@ public class UsuarioEmpresaCrud {
         Conexao conexao = new Conexao();
         JdbcTemplate cursor = conexao.getConnection();
         
-        List <UsuarioEmpresa> retorno = cursor.query(String.format("SELECT * FROM UsuarioEmpresa WHERE emailUsuario LIKE '%s' AND senha LIKE MD5('%s')", email, senha), new BeanPropertyRowMapper(UsuarioEmpresa.class));
+        List <UsuarioEmpresa> retorno = cursor.query(String.format("SELECT * FROM UsuarioEmpresa WHERE emailUsuario LIKE '%s' AND senha = HashBytes('MD5', '%s')", email, senha), new BeanPropertyRowMapper(UsuarioEmpresa.class));
         for(UsuarioEmpresa usuarioEmpresa : retorno){
             return usuarioEmpresa;
         }
