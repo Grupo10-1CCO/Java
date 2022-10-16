@@ -35,7 +35,7 @@ public class SerialMaquina extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        txtSerialMaquina = new javax.swing.JLabel();
+        txtSerialMaquina = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,24 +79,29 @@ public class SerialMaquina extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        txtSerialMaquina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtSerialMaquina.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtSerialMaquina.setText("Serial da Máquina:");
+        txtSerialMaquina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSerialMaquinaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(45, 45, 45)
                 .addComponent(txtSerialMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addComponent(txtSerialMaquina)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addGap(78, 78, 78)
+                .addComponent(txtSerialMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -120,6 +125,10 @@ public class SerialMaquina extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtSerialMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSerialMaquinaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSerialMaquinaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,6 +170,6 @@ public class SerialMaquina extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JLabel txtSerialMaquina;
+    private javax.swing.JTextField txtSerialMaquina;
     // End of variables declaration//GEN-END:variables
 }
