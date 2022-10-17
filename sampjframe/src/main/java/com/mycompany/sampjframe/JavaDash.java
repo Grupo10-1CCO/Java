@@ -119,6 +119,7 @@ public class JavaDash extends javax.swing.JFrame {
                     Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
                     Double memoriaUsadaRound = Math.round(memoriaUsadaDoubleCon * 10.0) / 10.0;
                     Double porcentagem = (memoriaUsadaRound * 100) / memoriaTotalRound;
+                    porcentagem = Math.round(porcentagem * 10.0) / 10.0;
                     String txtMemoriaUsada = memoriaUsadaRound.toString() + " GB | " + porcentagem + "%";
                     memUsada.setText(txtMemoriaUsada);
                     Dados dados = new Dados();
