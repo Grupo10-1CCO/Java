@@ -67,11 +67,10 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btLogar = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         tfSenha = new javax.swing.JPasswordField();
         tfSerial = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        btnCadastrarMaquina = new javax.swing.JButton();
+        btLogar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -141,15 +140,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 51, 255));
-        jLabel5.setText("Cadastrar-se");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-
         tfSerial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfSerialActionPerformed(evt);
@@ -157,16 +147,16 @@ public class Login extends javax.swing.JFrame {
         });
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel6.setText("Serial do servidor");
+        jLabel6.setText("Serial da Máquina:");
 
-        btnCadastrarMaquina.setBackground(new java.awt.Color(77, 158, 65));
-        btnCadastrarMaquina.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnCadastrarMaquina.setForeground(new java.awt.Color(255, 255, 255));
-        btnCadastrarMaquina.setText("Cadastrar Servidor");
-        btnCadastrarMaquina.setBorder(null);
-        btnCadastrarMaquina.addActionListener(new java.awt.event.ActionListener() {
+        btLogar1.setBackground(new java.awt.Color(0, 51, 204));
+        btLogar1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btLogar1.setForeground(new java.awt.Color(255, 255, 255));
+        btLogar1.setText("Cadastro Maquina");
+        btLogar1.setBorder(null);
+        btLogar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastrarMaquinaActionPerformed(evt);
+                btLogar1ActionPerformed(evt);
             }
         });
 
@@ -175,26 +165,21 @@ public class Login extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(65, Short.MAX_VALUE)
+                .addContainerGap(79, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(104, 104, 104))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(59, 59, 59)
-                                .addComponent(jLabel5)
-                                .addGap(56, 56, 56))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btLogar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3)
-                                .addComponent(tfEmail)
-                                .addComponent(tfSerial)
-                                .addComponent(jLabel6)
-                                .addComponent(tfSenha)
-                                .addComponent(jLabel4)
-                                .addComponent(btnCadastrarMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel6)
+                            .addComponent(btLogar, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                            .addComponent(jLabel3)
+                            .addComponent(tfEmail)
+                            .addComponent(tfSerial)
+                            .addComponent(tfSenha)
+                            .addComponent(jLabel4)
+                            .addComponent(btLogar1, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
                         .addGap(64, 64, 64))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -212,15 +197,13 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addComponent(tfSerial, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCadastrarMaquina, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
                 .addComponent(btLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(btLogar1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -293,120 +276,13 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfSerialActionPerformed
 
-    private void btnCadastrarMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarMaquinaActionPerformed
-        UsuarioEmpresaCrud usuarioEmpCrud = new UsuarioEmpresaCrud();
-        UsuarioEmpresa usuarioEmpresa = new UsuarioEmpresa();
-        String email = tfEmail.getText();
-        String senha = tfSenha.getText();
-        
-        usuarioEmpresa = usuarioEmpCrud.validarLogin(email, senha);
-        
-        
-        if(email.equalsIgnoreCase(usuarioEmpresa.getEmailUsuario())){
-            Maquina maquina = new Maquina();
-            maquina.setFkEmpresa(usuarioEmpresa.getIdEmpresa());
-            maquina.setNome("Servidor PIX");
-            maquina.gerarSerial();
-            
-            MaquinaCrud maquinaCrud = new MaquinaCrud();
-            
-            maquinaCrud.inserir(maquina);
-            
-            Looca looca = new Looca();
-            
-            Processador processador = looca.getProcessador();
-            
-            Memoria memoria = looca.getMemoria();
-            Long memoriaTotal = memoria.getTotal();
-            Double memoriaTotalDouble = memoriaTotal.doubleValue();
-            Double memoriaTotalDoubleCon = memoriaTotalDouble / 1024 / 1024 / 1024;
-            Double memoriaTotalRound = Math.round(memoriaTotalDoubleCon * 10.0) / 10.0;
-            
-            DiscoGrupo grupoDiscos = looca.getGrupoDeDiscos();
-            List<Volume> volumes = grupoDiscos.getVolumes();
-            
-            List <Maquina> ultimaMaquina = new ArrayList();
-            ultimaMaquina = maquinaCrud.selectUltimaMaquina();
-
-            for(Maquina retornoMaquina : ultimaMaquina){
-                List <Componente> listaComponente;
-                
-                listaComponente = componenteCrud.listarFkComponenteMaquina(retornoMaquina.getIdMaquina());
-                compCpu.setNomeComponente("CPU " + processador.getNome());
-                compCpu.setCapacidadeMaxima(null);
-                compCpu.setFkMaquina(retornoMaquina.getIdMaquina());
-                compCpu.setFkMedida(1);
-                compCpu.setFkMetrica(null);
-
-                componenteCrud.inserirComponente(compCpu);
-
-                compRam.setNomeComponente("RAM");
-                compRam.setCapacidadeMaxima(memoriaTotalRound);
-                compRam.setFkMaquina(retornoMaquina.getIdMaquina());
-                compRam.setFkMedida(1);
-                compRam.setFkMetrica(null);
-
-                componenteCrud.inserirComponente(compRam);
-
-                for(Volume volume : volumes){
-                    Componente disco = new Componente();
-                    disco.setNomeComponente("Disco: " + volume.getPontoDeMontagem());
-                    Long volumeTotalLong = volume.getTotal();
-                    Double volumeTotal = volumeTotalLong.doubleValue();
-                    volumeTotal = volumeTotal / 1024 / 1024 / 1024;
-                    volumeTotal = Math.round(volumeTotal * 10.0) / 10.0;
-                    disco.setCapacidadeMaxima(volumeTotal);
-                    disco.setFkMaquina(retornoMaquina.getIdMaquina());
-                    disco.setFkMedida(1);
-                    disco.setFkMetrica(null);
-                    componenteCrud.inserirComponente(disco);
-
-                }
-                
-                List <Componente> listaCpu = componenteCrud.listarCpuMaquina(retornoMaquina.getIdMaquina());
-                List <Componente> listaRam = componenteCrud.listarRamMaquina(retornoMaquina.getIdMaquina());
-                List <Componente> listaDisco = componenteCrud.listarDiscosMaquina(retornoMaquina.getIdMaquina());
-                
-                for(Componente cpu : listaCpu){
-                    compCpu = cpu;
-                }
-                
-                for(Componente ram : listaRam){
-                    compRam = ram;
-                }
-                
-                for(Componente disco : listaDisco){
-                    discos2.add(disco);
-                }
-                
-                JavaDash janela2 = new JavaDash();
-                janela2.setIdMaquina(retornoMaquina.getIdMaquina());
-                janela2.setCpu(compCpu);
-                janela2.setRam(compRam);
-                janela2.setListaDisco(discos2);
-                janela2.setLocationRelativeTo(null);
-                janela2.setVisible(true);
-                janela2.setResizable(false);
-                
-                SerialMaquina serial = new SerialMaquina();
-                serial.setSerialMaquina(retornoMaquina.getSerialMaquina());
-                serial.setLocationRelativeTo(null);
-                serial.setVisible(true);
-                serial.setResizable(false);
-                
-                this.dispose();
-            }
-            
-        }
-    }//GEN-LAST:event_btnCadastrarMaquinaActionPerformed
-
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-         try {
-            Desktop.getDesktop().browse(new URI("http://www.youtube.com"));
-        } catch (IOException | URISyntaxException e1) {
-            e1.printStackTrace();
-        }
-    }//GEN-LAST:event_jLabel5MouseClicked
+    private void btLogar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogar1ActionPerformed
+        cadastroServer janelaCadastro = new cadastroServer();
+        janelaCadastro.setLocationRelativeTo(null);
+        janelaCadastro.setVisible(true);
+        janelaCadastro.setResizable(false);
+        this.dispose();
+    }//GEN-LAST:event_btLogar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -445,12 +321,11 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogar;
-    private javax.swing.JButton btnCadastrarMaquina;
+    private javax.swing.JButton btLogar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
