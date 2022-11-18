@@ -18,20 +18,9 @@ public class Conexao {
     public Conexao() {
         BasicDataSource dataSource = new BasicDataSource();
 
-//        //Conexão MySQL Local
-//        dataSource​.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//
-//        dataSource​.setUrl("jdbc:mysql://localhost:3306/SAMP");
-//
-//        dataSource​.setUsername("user_atividePI");
-//
-//        dataSource​.setPassword("sptech");
-
 
         //Conexão Azure
         dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        
-//        dataSource.setUrl("jdbc:sqlserver://projetosamp.database.windows.net/SAMP");
         
         dataSource.setUrl("jdbc:sqlserver://projetosamp.database.windows.net;database=SAMP;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
         

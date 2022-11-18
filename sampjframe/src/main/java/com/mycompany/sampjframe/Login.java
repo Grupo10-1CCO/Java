@@ -46,6 +46,10 @@ public class Login extends javax.swing.JFrame {
     Componente compRam = new Componente();
     List <Componente> discos2 = new ArrayList();
     
+    Componente compCpuLocal = new Componente();
+    Componente compRamLocal = new Componente();
+    List <Componente> discosLocal = new ArrayList();
+    
     ComponenteCrud componenteCrud = new ComponenteCrud();
     
     /**
@@ -248,6 +252,10 @@ public class Login extends javax.swing.JFrame {
                 List <Componente> listaRam = componenteCrud.listarRamMaquina(autenticacaoApi.getIdMaquina());
                 List <Componente> listaDisco = componenteCrud.listarDiscosMaquina(autenticacaoApi.getIdMaquina());
                 
+                List <Componente> listaCpuLocal = componenteCrud.listarCpuMaquinaLocal();                
+                List <Componente> listaRamLocal = componenteCrud.listarRamMaquinaLocal();
+                List <Componente> listaDiscosLocal = componenteCrud.listarDiscosMaquinaLocal();
+                
                 for(Componente cpu : listaCpu){
                     compCpu = cpu;
                 }
@@ -260,11 +268,26 @@ public class Login extends javax.swing.JFrame {
                     discos2.add(disco);
                 }
                 
+                for(Componente cpu : listaCpuLocal){
+                    compCpuLocal = cpu;
+                }
+                
+                for(Componente ram : listaRamLocal){
+                    compRamLocal = ram;
+                }
+                
+                for(Componente disco : listaDiscosLocal){
+                    discosLocal.add(disco);
+                }
+                
                 JavaDash janela2 = new JavaDash();
                 janela2.setIdMaquina(autenticacaoApi.getIdMaquina());
                 janela2.setCpu(compCpu);
                 janela2.setRam(compRam);
                 janela2.setListaDisco(discos2);
+                janela2.setCpuLocal(compCpuLocal);                
+                janela2.setRamLocal(compRamLocal);
+                janela2.setListaDiscoLocal(discosLocal);
                 janela2.setLocationRelativeTo(null);
                 janela2.setVisible(true);
                 janela2.setResizable(false);

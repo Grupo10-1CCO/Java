@@ -17,10 +17,17 @@ public class DadosCrud {
     
     private JdbcTemplate jbdcTemplate;
     Conexao conexao = new Conexao();
+    ConexaoDocker conexaoDocker = new ConexaoDocker();
     JdbcTemplate cursor = conexao.getConnection();
+    JdbcTemplate cursorDocker = conexaoDocker.getConnection();
     
     public void inserirDados(Dados dados){
         cursor.update("INSERT INTO Dados (registro, momento, fkComponente) VALUES (?, ?, ?)",
+                            dados.getRegistro(), dados.getMomento(), dados.getFkComponente());
+    }
+    
+    public void inserirDadosLocal(Dados dados){
+        cursorDocker.update("INSERT INTO Dados (registro, momento, fkComponente) VALUES (?, ?, ?)",
                             dados.getRegistro(), dados.getMomento(), dados.getFkComponente());
     }
     

@@ -30,9 +30,14 @@ public class cadastroServer extends javax.swing.JFrame {
     public cadastroServer() {
         initComponents();
     }
-     Componente compCpu = new Componente();
+    
+    Componente compCpu = new Componente();
     Componente compRam = new Componente();
     List <Componente> discos2 = new ArrayList();
+    
+    Componente compCpuLocal = new Componente();
+    Componente compRamLocal = new Componente();
+    List <Componente> discosLocal = new ArrayList();
     
     ComponenteCrud componenteCrud = new ComponenteCrud();
     
@@ -283,6 +288,11 @@ public class cadastroServer extends javax.swing.JFrame {
                 List <Componente> listaRam = componenteCrud.listarRamMaquina(retornoMaquina.getIdMaquina());
                 List <Componente> listaDisco = componenteCrud.listarDiscosMaquina(retornoMaquina.getIdMaquina());
                 
+                List <Componente> listaCpuLocal = componenteCrud.listarCpuMaquinaLocal();
+                List <Componente> listaRamLocal = componenteCrud.listarRamMaquinaLocal();
+                List <Componente> listaDiscoLocal = componenteCrud.listarDiscosMaquinaLocal();
+
+                
                 for(Componente cpu : listaCpu){
                     compCpu = cpu;
                 }
@@ -295,11 +305,26 @@ public class cadastroServer extends javax.swing.JFrame {
                     discos2.add(disco);
                 }
                 
+                for(Componente cpu : listaCpuLocal){
+                    compCpuLocal = cpu;
+                }
+                
+                for(Componente ram : listaRamLocal){
+                    compRamLocal = ram;
+                }
+                
+                for(Componente disco : listaDiscoLocal){
+                    discosLocal.add(disco);
+                }
+                
                 JavaDash janela2 = new JavaDash();
                 janela2.setIdMaquina(retornoMaquina.getIdMaquina());
                 janela2.setCpu(compCpu);
                 janela2.setRam(compRam);
                 janela2.setListaDisco(discos2);
+                janela2.setCpuLocal(compCpuLocal);                
+                janela2.setRamLocal(compRamLocal);
+                janela2.setListaDiscoLocal(discosLocal);
                 janela2.setLocationRelativeTo(null);
                 janela2.setVisible(true);
                 janela2.setResizable(false);

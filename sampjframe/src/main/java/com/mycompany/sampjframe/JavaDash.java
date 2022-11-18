@@ -41,9 +41,6 @@ public class JavaDash extends javax.swing.JFrame {
         
         @Override
         public void run() {          
-//            capturaRam();
-//            capturaCpu();
-//            capturaDiscos();
               capturaCpu();
               capturaRam();
               capturaDiscos();
@@ -76,6 +73,10 @@ public class JavaDash extends javax.swing.JFrame {
     Componente compRam;
     List <Componente> discos2;
     
+    Componente compCpuLocal;
+    Componente compRamLocal;
+    List <Componente> discosLocal;
+    
     ProcessoGrupo processos = new ProcessoGrupo();
 
     DiscoGrupo grupoDiscos = looca.getGrupoDeDiscos();
@@ -105,6 +106,18 @@ public class JavaDash extends javax.swing.JFrame {
         this.discos2 = disco;
     }
     
+    public void setCpuLocal(Componente cpu){
+        this.compCpuLocal = cpu;
+    }
+    
+    public void setRamLocal(Componente ram){
+        this.compRamLocal = ram;
+    }
+    
+    public void setListaDiscoLocal(List <Componente> discos){
+        this.discosLocal = discos;
+    }
+    
     public void capturaProcessos(){
         List <Processo> listaProcessos =  processos.getProcessos();
         txtProcessos.setText(listaProcessos.toString());
@@ -112,8 +125,6 @@ public class JavaDash extends javax.swing.JFrame {
     
     
     public void capturaRam(){
-        
-        
                     Long memoriaUsada = memoria.getEmUso();
                     Double memoriaUsadaDouble = memoriaUsada.doubleValue();
                     Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
@@ -128,10 +139,8 @@ public class JavaDash extends javax.swing.JFrame {
                     dados.setRegistro(porcentagem);
                     dados.setMomento(new Date());
                     dadosCrud.inserirDados(dados);
-                
-        
-        
-        
+                    dados.setFkComponente(compRamLocal.getIdComponente());
+                    dadosCrud.inserirDadosLocal(dados);
     }
     
     public void capturaCpu(){
@@ -146,7 +155,8 @@ public class JavaDash extends javax.swing.JFrame {
                     dados.setRegistro(usoCpu);
                     dados.setMomento(new Date());
                     dadosCrud.inserirDados(dados);
-                
+                    dados.setFkComponente(compCpuLocal.getIdComponente());
+                    dadosCrud.inserirDadosLocal(dados);
         
         
     }
@@ -178,6 +188,12 @@ public class JavaDash extends javax.swing.JFrame {
                             dados.setRegistro(porcentagem);
                             dados.setMomento(new Date());
                             dadosCrud.inserirDados(dados);
+                            for(Componente discoLocal : discosLocal){
+                                if(discoLocal.getNomeComponente().equals(disco.getNomeComponente())){
+                                    dados.setFkComponente(discoLocal.getIdComponente());
+                                    dadosCrud.inserirDadosLocal(dados);
+                                }
+                            }
                         }
                     }
                     
