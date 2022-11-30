@@ -67,6 +67,18 @@ public class ComponenteCrud {
         return listaComponente;
     }
     
+    public List <Componente> listarTempMaquina(Integer idMaquina) {
+        List <Componente> listaComponente;
+        listaComponente = cursor.query(String.format("SELECT * FROM Componente WHERE fkMaquina = %d AND nomeComponente LIKE 'Temperatura'", idMaquina), new BeanPropertyRowMapper(Componente.class));
+        return listaComponente;
+    }
+    
+    public List <Componente> listarTempMaquinaLocal() {
+        List <Componente> listaComponente;
+        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1 AND nomeComponente LIKE 'Temperatura'", new BeanPropertyRowMapper(Componente.class));
+        return listaComponente;
+    }
+    
     public List <Componente> listarDiscosMaquina(Integer idMaquina){
         List <Componente> listaComponente;
         listaComponente = cursor.query(String.format("SELECT * FROM Componente WHERE fkMaquina = %d AND nomeComponente LIKE 'Disco%%'", idMaquina), new BeanPropertyRowMapper(Componente.class));
