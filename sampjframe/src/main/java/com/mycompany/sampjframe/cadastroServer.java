@@ -33,10 +33,12 @@ public class cadastroServer extends javax.swing.JFrame {
     
     Componente compCpu = new Componente();
     Componente compRam = new Componente();
+    Componente compTemp = new Componente();
     List <Componente> discos2 = new ArrayList();
     
     Componente compCpuLocal = new Componente();
     Componente compRamLocal = new Componente();
+    Componente compTempLocal = new Componente();
     List <Componente> discosLocal = new ArrayList();
     
     ComponenteCrud componenteCrud = new ComponenteCrud();
@@ -266,6 +268,14 @@ public class cadastroServer extends javax.swing.JFrame {
                 compRam.setFkMaquina(retornoMaquina.getIdMaquina());
                 compRam.setFkMedida(1);
                 compRam.setFkMetrica(null);
+                
+                compTemp.setNomeComponente("Temperatura");
+                compTemp.setCapacidadeMaxima(null);
+                compTemp.setFkMaquina(retornoMaquina.getIdMaquina());
+                compTemp.setFkMedida(7);
+                compTemp.setFkMetrica(null);
+                
+                componenteCrud.inserirComponente(compTemp);
 
                 componenteCrud.inserirComponente(compRam);
 
