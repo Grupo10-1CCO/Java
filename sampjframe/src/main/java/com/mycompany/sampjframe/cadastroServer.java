@@ -269,6 +269,8 @@ public class cadastroServer extends javax.swing.JFrame {
                 compRam.setFkMedida(1);
                 compRam.setFkMetrica(null);
                 
+                componenteCrud.inserirComponente(compRam);
+                
                 compTemp.setNomeComponente("Temperatura");
                 compTemp.setCapacidadeMaxima(null);
                 compTemp.setFkMaquina(retornoMaquina.getIdMaquina());
@@ -277,7 +279,6 @@ public class cadastroServer extends javax.swing.JFrame {
                 
                 componenteCrud.inserirComponente(compTemp);
 
-                componenteCrud.inserirComponente(compRam);
 
                 for(Volume volume : volumes){
                     Componente disco = new Componente();
@@ -297,11 +298,12 @@ public class cadastroServer extends javax.swing.JFrame {
                 List <Componente> listaCpu = componenteCrud.listarCpuMaquina(retornoMaquina.getIdMaquina());
                 List <Componente> listaRam = componenteCrud.listarRamMaquina(retornoMaquina.getIdMaquina());
                 List <Componente> listaDisco = componenteCrud.listarDiscosMaquina(retornoMaquina.getIdMaquina());
+                List <Componente> listaTemp = componenteCrud.listarTempMaquina(retornoMaquina.getIdMaquina());
                 
                 List <Componente> listaCpuLocal = componenteCrud.listarCpuMaquinaLocal();
                 List <Componente> listaRamLocal = componenteCrud.listarRamMaquinaLocal();
                 List <Componente> listaDiscoLocal = componenteCrud.listarDiscosMaquinaLocal();
-
+                List <Componente> listaTempLocal = componenteCrud.listarTempMaquinaLocal();
                 
                 for(Componente cpu : listaCpu){
                     compCpu = cpu;
@@ -313,6 +315,10 @@ public class cadastroServer extends javax.swing.JFrame {
                 
                 for(Componente disco : listaDisco){
                     discos2.add(disco);
+                }
+                
+                for(Componente temp : listaTemp){
+                    compTemp = temp;
                 }
                 
                 for(Componente cpu : listaCpuLocal){
@@ -327,13 +333,19 @@ public class cadastroServer extends javax.swing.JFrame {
                     discosLocal.add(disco);
                 }
                 
+                for(Componente temp : listaTempLocal){
+                    compTempLocal = temp;
+                }
+                
                 JavaDash janela2 = new JavaDash();
                 janela2.setIdMaquina(retornoMaquina.getIdMaquina());
                 janela2.setCpu(compCpu);
                 janela2.setRam(compRam);
+                janela2.setTemp(compTemp);
                 janela2.setListaDisco(discos2);
                 janela2.setCpuLocal(compCpuLocal);                
                 janela2.setRamLocal(compRamLocal);
+                janela2.setTempLocal(compTempLocal);
                 janela2.setListaDiscoLocal(discosLocal);
                 janela2.setLocationRelativeTo(null);
                 janela2.setVisible(true);

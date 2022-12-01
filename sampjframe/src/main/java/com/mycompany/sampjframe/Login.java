@@ -44,10 +44,12 @@ public class Login extends javax.swing.JFrame {
     
     Componente compCpu = new Componente();
     Componente compRam = new Componente();
+    Componente compTemp = new Componente();
     List <Componente> discos2 = new ArrayList();
     
     Componente compCpuLocal = new Componente();
     Componente compRamLocal = new Componente();
+    Componente compTempLocal = new Componente();
     List <Componente> discosLocal = new ArrayList();
     
     ComponenteCrud componenteCrud = new ComponenteCrud();
@@ -250,10 +252,12 @@ public class Login extends javax.swing.JFrame {
             
                 List <Componente> listaCpu = componenteCrud.listarCpuMaquina(autenticacaoApi.getIdMaquina());
                 List <Componente> listaRam = componenteCrud.listarRamMaquina(autenticacaoApi.getIdMaquina());
+                List <Componente> listaTemp = componenteCrud.listarTempMaquina(autenticacaoApi.getIdMaquina());
                 List <Componente> listaDisco = componenteCrud.listarDiscosMaquina(autenticacaoApi.getIdMaquina());
                 
                 List <Componente> listaCpuLocal = componenteCrud.listarCpuMaquinaLocal();                
                 List <Componente> listaRamLocal = componenteCrud.listarRamMaquinaLocal();
+                List <Componente> listaTempLocal = componenteCrud.listarCpuMaquinaLocal();
                 List <Componente> listaDiscosLocal = componenteCrud.listarDiscosMaquinaLocal();
                 
                 for(Componente cpu : listaCpu){
@@ -262,6 +266,10 @@ public class Login extends javax.swing.JFrame {
                 
                 for(Componente ram : listaRam){
                     compRam = ram;
+                }
+                
+                for(Componente temp : listaTemp){
+                    compTemp = temp;
                 }
                 
                 for(Componente disco : listaDisco){
@@ -276,6 +284,10 @@ public class Login extends javax.swing.JFrame {
                     compRamLocal = ram;
                 }
                 
+                for(Componente temp : listaTempLocal){
+                    compTempLocal = temp;
+                }
+                
                 for(Componente disco : listaDiscosLocal){
                     discosLocal.add(disco);
                 }
@@ -284,9 +296,11 @@ public class Login extends javax.swing.JFrame {
                 janela2.setIdMaquina(autenticacaoApi.getIdMaquina());
                 janela2.setCpu(compCpu);
                 janela2.setRam(compRam);
+                janela2.setTemp(compTemp);
                 janela2.setListaDisco(discos2);
                 janela2.setCpuLocal(compCpuLocal);                
                 janela2.setRamLocal(compRamLocal);
+                janela2.setTempLocal(compTempLocal);
                 janela2.setListaDiscoLocal(discosLocal);
                 janela2.setLocationRelativeTo(null);
                 janela2.setVisible(true);
