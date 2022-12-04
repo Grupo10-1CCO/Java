@@ -122,7 +122,10 @@ public class Dashboard {
 //        this.listaDiscosLocal = discos;
 //    }
     
-     public void capturaTemp(Date momentoCaptura) {
+
+ 
+    public void capturaTemp(Date momentoCaptura) {
+
       Double temperatura = looca.getTemperatura().getTemperatura();
 //      String msgTemperatura = temperatura.toString() + " ºC";
 //      System.out.printf("Temp: %s\n", msgTemperatura);
