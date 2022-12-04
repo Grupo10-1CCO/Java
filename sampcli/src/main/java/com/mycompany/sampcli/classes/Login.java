@@ -10,6 +10,7 @@ import com.mycompany.sampcli.banco.Componente;
 import com.mycompany.sampcli.banco.ComponenteCrud;
 import com.mycompany.sampcli.banco.UsuarioEmpresa;
 import com.mycompany.sampcli.banco.UsuarioEmpresaCrud;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -22,7 +23,7 @@ import java.util.Scanner;
 
 public class Login {
     
-    public static void main(String[]args){
+    public static void main(String[]args) throws IOException, InterruptedException{
         
         Componente compCpu = new Componente();
         Componente compRam = new Componente();
@@ -49,7 +50,7 @@ public class Login {
             System.out.println("X-X".repeat(25));
             System.out.println("Bem-Vindo a API do Projeto SAMP!");
             System.out.println("X-X".repeat(25));
-            System.out.println("\nSelecione uma opção:\n");        
+            System.out.println("\nSelecione uma opção:\n");
             System.out.println("[1] Login do servidor");
             System.out.println("[2] Cadastro do servidor");
 
@@ -64,8 +65,15 @@ public class Login {
                 }else{
                     System.out.println("Por favor, infome seu email:");
                     String email = in.nextLine();
+                    String descarte = in.nextLine();
                     System.out.println("Agora informe sua senha:");
                     String senha = in2.nextLine();
+                    try {
+                        if (System.getProperty("os.name").contains("Windows"))
+                            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                        else
+                            Runtime.getRuntime().exec("clear");
+                    } catch (IOException | InterruptedException ex) {}
                     System.out.println("Informe o serial da maquina: ");
                     String serial = in3.nextLine();
                     
