@@ -11,7 +11,7 @@ package com.mycompany.sampcli.pipefy;
 public class Node {
     private String id;
     private String title;
-    private String age;
+    private Integer age;
 
     public String getId() {
         return id;
@@ -29,11 +29,11 @@ public class Node {
         this.title = title;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 

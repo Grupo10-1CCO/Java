@@ -14,11 +14,17 @@ import com.github.britooo.looca.api.group.processos.Processo;
 import com.mycompany.sampcli.banco.Componente;
 import com.mycompany.sampcli.banco.Dados;
 import com.mycompany.sampcli.banco.DadosCrud;
+import com.mycompany.sampcli.banco.MetricaComponente;
+import com.mycompany.sampcli.banco.MetricaComponenteCrud;
+import com.mycompany.sampcli.pipefy.IntegracaoPipefy;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,15 +34,45 @@ public class Dashboard {
     
     Timer timer = new Timer();
     
-    public Dashboard(Componente compCpu, Componente compRam, Componente compTemp, List <Componente> listaDiscos/*, Componente compCpuLocal, Componente compRamLocal, Componente compTempLocal, List <Componente> listaDiscosLocal*/){
+    Integer metricaMinCpu = null;
+    Integer metricaMaxCpu = null;
+    Integer metricaMinRam = null;
+    Integer metricaMaxRam = null;
+    Integer metricaMinTem = null;
+    Integer metricaMaxTem = null;
+    
+    public Dashboard(Componente compCpu, Componente compRam, Componente compTemp, List <Componente> listaDiscos, String serialMaquina/*, Componente compCpuLocal, Componente compRamLocal, Componente compTempLocal, List <Componente> listaDiscosLocal*/){
         this.compCpu = compCpu;
         this.compRam = compRam;
         this.compTemp = compTemp;
         this.listaDiscos = listaDiscos;
-//        this.compCpuLocal = compCpuLocal;
-//        this.compRamLocal = compRamLocal;
-//        this.compTempLocal = compTempLocal;
-//        this.listaDiscosLocal = listaDiscosLocal;
+        this.serialMaquina = serialMaquina;
+        this.compCpuLocal = compCpuLocal;
+        this.compRamLocal = compRamLocal;
+        this.compTempLocal = compTempLocal;
+        this.listaDiscosLocal = listaDiscosLocal;
+
+
+        MetricaComponenteCrud resgatarMetrica = new MetricaComponenteCrud();
+        List <MetricaComponente> metricasComponente;
+        metricasComponente = resgatarMetrica.selectMetricaMaquina(serialMaquina);
+        
+        
+
+        
+        for(MetricaComponente metrica : metricasComponente){
+            String substring = metrica.getNomeComponente().substring(0, 3);
+            if(substring.equalsIgnoreCase("CPU")){
+                metricaMinCpu = metrica.getCapturaMin();
+                metricaMaxCpu = metrica.getCapturaMax();
+            }else if(substring.equalsIgnoreCase("RAM")){
+                metricaMinRam = metrica.getCapturaMin();
+                metricaMaxRam = metrica.getCapturaMax();
+            }else if(substring.equalsIgnoreCase("Tem")) {
+                metricaMinTem = metrica.getCapturaMin();
+                metricaMaxTem = metrica.getCapturaMax();
+            }
+        }
         
         System.out.println("Captura de Dados Iniciada! | SAMP - 2022");
         
@@ -44,11 +80,15 @@ public class Dashboard {
 
             @Override
             public void run() {
-                  Date momentoCaptura = new Date();
-                  capturaCpu(momentoCaptura);
-                  capturaRam(momentoCaptura);
-                  capturaDiscos(momentoCaptura);
-                  capturaTemp(momentoCaptura);
+                Date momentoCaptura = new Date(); 
+                try {
+                    capturaCpu(momentoCaptura);        
+                    capturaDiscos(momentoCaptura);
+                    capturaTemp(momentoCaptura);
+                    capturaRam(momentoCaptura);
+                } catch (IOException ex) {
+                    Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
         
@@ -61,11 +101,12 @@ public class Dashboard {
     Componente compRam; 
     Componente compTemp; 
     List <Componente> listaDiscos;
+    String serialMaquina;
     
-//    Componente compCpuLocal;
-//    Componente compRamLocal;
-//    Componente compTempLocal;
-//    List <Componente> listaDiscosLocal;
+    Componente compCpuLocal;
+    Componente compRamLocal;
+    Componente compTempLocal;
+    List <Componente> listaDiscosLocal;
     
     Looca looca = new Looca();
     
@@ -106,25 +147,29 @@ public class Dashboard {
         this.listaDiscos = disco;
     }
     
-//    public void setCpuLocal(Componente cpu){
-//        this.compCpuLocal = cpu;
-//    }
-//    
-//    public void setRamLocal(Componente ram){
-//        this.compRamLocal = ram;
-//    }
-//    
-//    public void setTempLocal(Componente temp){
-//        this.compTempLocal = temp;
-//    }
-//    
-//    public void setListaDiscoLocal(List <Componente> discos){
-//        this.listaDiscosLocal = discos;
-//    }
+    public void setSerialMaquina(String serialMaquina){
+        this.serialMaquina = serialMaquina;
+    }
+    
+    public void setCpuLocal(Componente cpu){
+        this.compCpuLocal = cpu;
+    }
+    
+    public void setRamLocal(Componente ram){
+        this.compRamLocal = ram;
+    }
+    
+    public void setTempLocal(Componente temp){
+        this.compTempLocal = temp;
+    }
+    
+    public void setListaDiscoLocal(List <Componente> discos){
+        this.listaDiscosLocal = discos;
+    }
     
 
  
-    public void capturaTemp(Date momentoCaptura) {
+    public void capturaTemp(Date momentoCaptura) throws IOException {
 
       Double temperatura = looca.getTemperatura().getTemperatura();
 //      String msgTemperatura = temperatura.toString() + " ºC";
@@ -135,11 +180,22 @@ public class Dashboard {
       dados.setRegistro(temperatura);
       dados.setMomento(momentoCaptura);
       dadosCrud.inserirDados(dados);
-      //dados.setFkComponente(compTempLocal.getIdComponente());
+      dados.setFkComponente(compTempLocal.getIdComponente());
       dadosCrud.inserirDadosLocal(dados);
+
+      if(metricaMaxTem != null && temperatura > metricaMaxTem){
+          if(!IntegracaoPipefy.verificarCard("Temperatura", serialMaquina, metricaMaxTem)){
+              IntegracaoPipefy.inserirCard("Temperatura", serialMaquina, metricaMaxTem, temperatura);
+          }
+      }else if(metricaMinTem != null && temperatura < metricaMinTem){
+          if(!IntegracaoPipefy.verificarCard("Temperatura", serialMaquina, metricaMinTem)){
+              IntegracaoPipefy.inserirCard("Temperatura", serialMaquina, metricaMinTem, temperatura);
+          }
+      }
+
     }
     
-    public void capturaRam(Date momentoCaptura){
+    public void capturaRam(Date momentoCaptura) throws IOException{
         Long memoriaUsada = memoria.getEmUso();
         Double memoriaUsadaDouble = memoriaUsada.doubleValue();
         Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
@@ -154,11 +210,20 @@ public class Dashboard {
         dados.setRegistro(porcentagem);
         dados.setMomento(momentoCaptura);
         dadosCrud.inserirDados(dados);
-        //dados.setFkComponente(compRamLocal.getIdComponente());
+        dados.setFkComponente(compRamLocal.getIdComponente());
         dadosCrud.inserirDadosLocal(dados);
+        if(metricaMaxRam != null && porcentagem > metricaMaxRam){
+            if(!IntegracaoPipefy.verificarCard("RAM", serialMaquina, metricaMaxRam)){
+                IntegracaoPipefy.inserirCard("RAM", serialMaquina, metricaMaxRam, porcentagem);
+            }
+        }else if(metricaMinRam != null && porcentagem < metricaMinRam){
+            if(!IntegracaoPipefy.verificarCard("RAM", serialMaquina, metricaMinRam)){
+                IntegracaoPipefy.inserirCard("RAM", serialMaquina, metricaMinRam, porcentagem);
+            }
+        }
     }
     
-    public void capturaCpu(Date momentoCaptura){
+    public void capturaCpu(Date momentoCaptura) throws IOException{
         Double usoCpu = processador.getUso();
         usoCpu = Math.round(usoCpu * 10.0) / 10.0;
         String txtUsoCpu = processador.getNome() + ":\n" + usoCpu.toString() + " %";
@@ -169,9 +234,17 @@ public class Dashboard {
         dados.setRegistro(usoCpu);
         dados.setMomento(momentoCaptura);
         dadosCrud.inserirDados(dados);
-        //dados.setFkComponente(compCpuLocal.getIdComponente());
+        dados.setFkComponente(compCpuLocal.getIdComponente());
         dadosCrud.inserirDadosLocal(dados);
-        
+        if(metricaMaxCpu != null && usoCpu > metricaMaxCpu){
+            if(!IntegracaoPipefy.verificarCard("CPU", serialMaquina, metricaMaxCpu)){
+                IntegracaoPipefy.inserirCard("CPU", serialMaquina, metricaMaxCpu, usoCpu);
+            }
+        }else if(metricaMinCpu != null && usoCpu < metricaMinCpu){
+            if(!IntegracaoPipefy.verificarCard("CPU", serialMaquina, metricaMinCpu)){
+                IntegracaoPipefy.inserirCard("CPU", serialMaquina, metricaMinCpu, usoCpu);
+            }
+        }
         
     }
     
@@ -202,12 +275,12 @@ public class Dashboard {
                             dados.setRegistro(porcentagem);
                             dados.setMomento(momentoCaptura);
                             dadosCrud.inserirDados(dados);
-//                            for(Componente discoLocal : listaDiscosLocal){
-//                                if(discoLocal.getNomeComponente().equals(disco.getNomeComponente())){
-//                                    dados.setFkComponente(discoLocal.getIdComponente());
-//                                    dadosCrud.inserirDadosLocal(dados);
-//                                }
-//                            }
+                            for(Componente discoLocal : listaDiscosLocal){
+                                if(discoLocal.getNomeComponente().equals(disco.getNomeComponente())){
+                                    dados.setFkComponente(discoLocal.getIdComponente());
+                                    dadosCrud.inserirDadosLocal(dados);
+                                }
+                            }
                         }
                     }
                     

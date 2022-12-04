@@ -33,10 +33,10 @@ public class Cadastro {
     Componente compTemp = new Componente();
     List <Componente> listaDiscos = new ArrayList();
     
-//    Componente compCpuLocal = new Componente();
-//    Componente compRamLocal = new Componente();
-//    Componente compTempLocal = new Componente();
-//    List <Componente> listaDiscosLocal = new ArrayList();
+    Componente compCpuLocal = new Componente();
+    Componente compRamLocal = new Componente();
+    Componente compTempLocal = new Componente();
+    List <Componente> listaDiscosLocal = new ArrayList();
     
     ComponenteCrud componenteCrud = new ComponenteCrud();
     
@@ -133,10 +133,10 @@ public class Cadastro {
                 List <Componente> listaDisco = componenteCrud.listarDiscosMaquina(retornoMaquina.getIdMaquina());
                 List <Componente> listaTemp = componenteCrud.listarTempMaquina(retornoMaquina.getIdMaquina());
                 
-//                List <Componente> listaCpuLocal = componenteCrud.listarCpuMaquinaLocal();
-//                List <Componente> listaRamLocal = componenteCrud.listarRamMaquinaLocal();
-//                List <Componente> listaDiscoLocal = componenteCrud.listarDiscosMaquinaLocal();
-//                List <Componente> listaTempLocal = componenteCrud.listarTempMaquinaLocal();
+                List <Componente> listaCpuLocal = componenteCrud.listarCpuMaquinaLocal();
+                List <Componente> listaRamLocal = componenteCrud.listarRamMaquinaLocal();
+                List <Componente> listaDiscoLocal = componenteCrud.listarDiscosMaquinaLocal();
+                List <Componente> listaTempLocal = componenteCrud.listarTempMaquinaLocal();
                 
                 for(Componente cpu : listaCpu){
                     compCpu = cpu;
@@ -154,21 +154,21 @@ public class Cadastro {
                     compTemp = temp;
                 }
                 
-//                for(Componente cpu : listaCpuLocal){
-//                    compCpuLocal = cpu;
-//                }
-//                
-//                for(Componente ram : listaRamLocal){
-//                    compRamLocal = ram;
-//                }
-//                
-//                for(Componente disco : listaDiscoLocal){
-//                    listaDiscosLocal.add(disco);
-//                }
-//                
-//                for(Componente temp : listaTempLocal){
-//                    compTempLocal = temp;
-//                }
+                for(Componente cpu : listaCpuLocal){
+                    compCpuLocal = cpu;
+                }
+                
+                for(Componente ram : listaRamLocal){
+                    compRamLocal = ram;
+                }
+                
+                for(Componente disco : listaDiscoLocal){
+                    listaDiscosLocal.add(disco);
+                }
+                
+                for(Componente temp : listaTempLocal){
+                    compTempLocal = temp;
+                }
                 
                 System.out.println("X-X".repeat(25));
                 System.out.println("IMPORTANTE!");
@@ -176,16 +176,16 @@ public class Cadastro {
                 System.out.printf("%s\n", retornoMaquina.getSerialMaquina());
                 System.out.println("X-X".repeat(25));
 
-                Dashboard janela2 = new Dashboard(compCpu, compRam, compTemp, listaDiscos/*, compCpuLocal, compRamLocal, compTempLocal, listaDiscosLocal*/);
+                Dashboard janela2 = new Dashboard(compCpu, compRam, compTemp, listaDiscos, retornoMaquina.getSerialMaquina()/*, compCpuLocal, compRamLocal, compTempLocal, listaDiscosLocal*/);
                 janela2.setIdMaquina(retornoMaquina.getIdMaquina());
                 janela2.setCpu(compCpu);
                 janela2.setRam(compRam);
                 janela2.setTemp(compTemp);
                 janela2.setListaDisco(listaDiscos);
-//                janela2.setCpuLocal(compCpuLocal);                
-//                janela2.setRamLocal(compRamLocal);
-//                janela2.setTempLocal(compTempLocal);
-//                janela2.setListaDiscoLocal(listaDiscosLocal);
+                janela2.setCpuLocal(compCpuLocal);                
+                janela2.setRamLocal(compRamLocal);
+                janela2.setTempLocal(compTempLocal);
+                janela2.setListaDiscoLocal(listaDiscosLocal);
                 
             }
         }

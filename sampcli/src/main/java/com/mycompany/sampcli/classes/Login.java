@@ -39,10 +39,10 @@ public class Login {
         Componente compTemp = new Componente();
         List <Componente> listaDiscos = new ArrayList();
 
-//        Componente compCpuLocal = new Componente();
-//        Componente compRamLocal = new Componente();
-//        Componente compTempLocal = new Componente();
-//        List <Componente> listaDiscosLocal = new ArrayList();
+        Componente compCpuLocal = new Componente();
+        Componente compRamLocal = new Componente();
+        Componente compTempLocal = new Componente();
+        List <Componente> listaDiscosLocal = new ArrayList();
 
         ComponenteCrud componenteCrud = new ComponenteCrud();
 
@@ -98,10 +98,10 @@ public class Login {
                         List <Componente> listaTemp = componenteCrud.listarTempMaquina(autenticacaoApi.getIdMaquina());
                         List <Componente> listaDisco = componenteCrud.listarDiscosMaquina(autenticacaoApi.getIdMaquina());
 
-//                        List <Componente> listaCpuLocal = componenteCrud.listarCpuMaquinaLocal();                
-//                        List <Componente> listaRamLocal = componenteCrud.listarRamMaquinaLocal();
-//                        List <Componente> listaTempLocal = componenteCrud.listarCpuMaquinaLocal();
-//                        List <Componente> selectListaLocal = componenteCrud.listarDiscosMaquinaLocal();
+                        List <Componente> listaCpuLocal = componenteCrud.listarCpuMaquinaLocal();                
+                        List <Componente> listaRamLocal = componenteCrud.listarRamMaquinaLocal();
+                        List <Componente> listaTempLocal = componenteCrud.listarCpuMaquinaLocal();
+                        List <Componente> selectListaLocal = componenteCrud.listarDiscosMaquinaLocal();
 
                         for(Componente cpu : listaCpu){
                             compCpu = cpu;
@@ -119,32 +119,32 @@ public class Login {
                             listaDiscos.add(disco);
                         }
 
-//                        for(Componente cpu : listaCpuLocal){
-//                            compCpuLocal = cpu;
-//                        }
-//
-//                        for(Componente ram : listaRamLocal){
-//                            compRamLocal = ram;
-//                        }
-//
-//                        for(Componente temp : listaTempLocal){
-//                            compTempLocal = temp;
-//                        }
-//
-//                        for(Componente disco : listaDiscosLocal){
-//                            selectListaLocal.add(disco);
-//                        }
+                        for(Componente cpu : listaCpuLocal){
+                            compCpuLocal = cpu;
+                        }
+
+                        for(Componente ram : listaRamLocal){
+                            compRamLocal = ram;
+                        }
+
+                        for(Componente temp : listaTempLocal){
+                            compTempLocal = temp;
+                        }
+
+                        for(Componente disco : listaDiscosLocal){
+                            selectListaLocal.add(disco);
+                        }
                         
-                        Dashboard janela2 = new Dashboard(compCpu, compRam, compTemp, listaDiscos/*, compCpuLocal, compRamLocal, compTempLocal, listaDiscosLocal*/);
+                        Dashboard janela2 = new Dashboard(compCpu, compRam, compTemp, listaDiscos, autenticacaoApi.getSerialMaquina()/*, compCpuLocal, compRamLocal, compTempLocal, listaDiscosLocal*/);
                         janela2.setIdMaquina(autenticacaoApi.getIdMaquina());
                         janela2.setCpu(compCpu);
                         janela2.setRam(compRam);
                         janela2.setTemp(compTemp);
                         janela2.setListaDisco(listaDiscos);
-//                        janela2.setCpuLocal(compCpuLocal);                
-//                        janela2.setRamLocal(compRamLocal);
-//                        janela2.setTempLocal(compTempLocal);
-//                        janela2.setListaDiscoLocal(listaDiscosLocal);
+                        janela2.setCpuLocal(compCpuLocal);                
+                        janela2.setRamLocal(compRamLocal);
+                        janela2.setTempLocal(compTempLocal);
+                        janela2.setListaDiscoLocal(listaDiscosLocal);
                         
                     }
                     
@@ -157,27 +157,5 @@ public class Login {
 
         
     }
-    public void abrirChamado() throws IOException {
-            OkHttpClient client = new OkHttpClient();
-
-        MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\"query\":\"{allCards(pipeId: 302763672) {edges {node {id title age}}}}\"}");
-        Request request = new Request.Builder()
-                .url("https://api.pipefy.com/graphql")
-                .post(body)
-                .addHeader("accept", "application/json")
-                .addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjozMDIwODY5MjUsImVtYWlsIjoiam9hby5jb25jZWljYW9Ac3B0ZWNoLnNjaG9vbCIsImFwcGxpY2F0aW9uIjozMDAyMDc0NzZ9fQ.SRZx-58-x8HKCSTanwLU7MzGVoenpQwrmFpDppWzJduSo8NDJKtAw65ECGCGWEOO_1SJ65LnacQmgQ0aEIunXA")
-                .addHeader("Content-Type", "application/json")
-                .build();
-
-        ResponseBody response = client.newCall(request).execute().body();
-        Gson gson = new Gson();
-
-        String jsonString = response.string();
-
-        ResponsePipefy resposta = gson.fromJson(jsonString, ResponsePipefy.class);
-
-        System.out.println(resposta.getData().getAllCards().getEdges().get(0).getNode().getTitle());
-        }
     
 }
