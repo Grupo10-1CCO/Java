@@ -19,15 +19,15 @@ public class ComponenteCrud {
     
     private JdbcTemplate jbdcTemplate;
     Conexao conexao = new Conexao();
-    ConexaoDocker conexaoDocker = new ConexaoDocker();
+//    ConexaoDocker conexaoDocker = new ConexaoDocker();
     JdbcTemplate cursor = conexao.getConnection();
-    JdbcTemplate cursorDocker = conexaoDocker.getConnection();
+//    JdbcTemplate cursorDocker = conexaoDocker.getConnection();
     
     public void inserirComponente(Componente componente){
         cursor.update("INSERT INTO Componente (nomeComponente, tamanho, fkMaquina, fkMetrica, fkMedida) VALUES (?, ?, ?, ?, ?)",
                 componente.getNomeComponente(), componente.getTamanho(), componente.getFkMaquina(), componente.getFkMetrica(), componente.getFkMedida());
-        cursorDocker.update("INSERT INTO Componente (nomeComponente, tamanho, fkMaquina, fkMetrica, fkMedida) VALUES (?, ?, 1, null, 1)",
-                componente.getNomeComponente(), componente.getTamanho());
+//        cursorDocker.update("INSERT INTO Componente (nomeComponente, tamanho, fkMaquina, fkMetrica, fkMedida) VALUES (?, ?, 1, null, 1)",
+//                componente.getNomeComponente(), componente.getTamanho());
         
     }
     
@@ -37,11 +37,11 @@ public class ComponenteCrud {
         return listaComponente;
     }
     
-    public List <Componente> listarFkComponenteMaquinaLocal(){
-        List <Componente> listaComponente;
-        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1", new BeanPropertyRowMapper(Componente.class));
-        return listaComponente;
-    }
+//    public List <Componente> listarFkComponenteMaquinaLocal(){
+//        List <Componente> listaComponente;
+//        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1", new BeanPropertyRowMapper(Componente.class));
+//        return listaComponente;
+//    }
     
     public List <Componente> listarCpuMaquina(Integer idMaquina){
         List <Componente> listaComponente;
@@ -49,11 +49,11 @@ public class ComponenteCrud {
         return listaComponente;
     }
     
-    public List <Componente> listarCpuMaquinaLocal (){
-        List <Componente> listaComponente;
-        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1 AND nomeComponente LIKE 'CPU%'", new BeanPropertyRowMapper(Componente.class));
-        return listaComponente;
-    }
+//    public List <Componente> listarCpuMaquinaLocal (){
+//        List <Componente> listaComponente;
+//       listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1 AND nomeComponente LIKE 'CPU%'", new BeanPropertyRowMapper(Componente.class));
+//        return listaComponente;
+//    }
     
     public List <Componente> listarRamMaquina(Integer idMaquina){
         List <Componente> listaComponente;
@@ -61,11 +61,11 @@ public class ComponenteCrud {
         return listaComponente;
     }
     
-    public List <Componente> listarRamMaquinaLocal (){
-        List <Componente> listaComponente;
-        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1 AND nomeComponente LIKE 'RAM%'", new BeanPropertyRowMapper(Componente.class));
-        return listaComponente;
-    }
+//    public List <Componente> listarRamMaquinaLocal (){
+//        List <Componente> listaComponente;
+//        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1 AND nomeComponente LIKE 'RAM%'", new BeanPropertyRowMapper(Componente.class));
+//        return listaComponente;
+//    }
     
     public List <Componente> listarTempMaquina(Integer idMaquina) {
         List <Componente> listaComponente;
@@ -73,11 +73,11 @@ public class ComponenteCrud {
         return listaComponente;
     }
     
-    public List <Componente> listarTempMaquinaLocal() {
-        List <Componente> listaComponente;
-        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1 AND nomeComponente LIKE 'Temperatura'", new BeanPropertyRowMapper(Componente.class));
-        return listaComponente;
-    }
+//    public List <Componente> listarTempMaquinaLocal() {
+//        List <Componente> listaComponente;
+//        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1 AND nomeComponente LIKE 'Temperatura'", new BeanPropertyRowMapper(Componente.class));
+//        return listaComponente;
+//    }
     
     public List <Componente> listarDiscosMaquina(Integer idMaquina){
         List <Componente> listaComponente;
@@ -85,10 +85,10 @@ public class ComponenteCrud {
         return listaComponente;
     }
     
-    public List <Componente> listarDiscosMaquinaLocal (){
-        List <Componente> listaComponente;
-        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1 AND nomeComponente LIKE 'Disco%'", new BeanPropertyRowMapper(Componente.class));
-        return listaComponente;
-    }
+//    public List <Componente> listarDiscosMaquinaLocal (){
+//        List <Componente> listaComponente;
+//        listaComponente = cursorDocker.query("SELECT * FROM Componente WHERE fkMaquina = 1 AND nomeComponente LIKE 'Disco%'", new BeanPropertyRowMapper(Componente.class));
+//        return listaComponente;
+//    }
     
 }

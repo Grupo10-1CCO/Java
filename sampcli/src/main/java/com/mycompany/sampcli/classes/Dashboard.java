@@ -28,26 +28,27 @@ public class Dashboard {
     
     Timer timer = new Timer();
     
-    public Dashboard(Componente compCpu, Componente compRam, Componente compTemp, List <Componente> listaDiscos, Componente compCpuLocal, Componente compRamLocal, Componente compTempLocal, List <Componente> listaDiscosLocal){
+    public Dashboard(Componente compCpu, Componente compRam, Componente compTemp, List <Componente> listaDiscos/*, Componente compCpuLocal, Componente compRamLocal, Componente compTempLocal, List <Componente> listaDiscosLocal*/){
         this.compCpu = compCpu;
         this.compRam = compRam;
         this.compTemp = compTemp;
         this.listaDiscos = listaDiscos;
-        this.compCpuLocal = compCpuLocal;
-        this.compRamLocal = compRamLocal;
-        this.compTempLocal = compTempLocal;
-        this.listaDiscosLocal = listaDiscosLocal;
+//        this.compCpuLocal = compCpuLocal;
+//        this.compRamLocal = compRamLocal;
+//        this.compTempLocal = compTempLocal;
+//        this.listaDiscosLocal = listaDiscosLocal;
         
         System.out.println("Captura de Dados Iniciada! | SAMP - 2022");
         
-        TimerTask task = new TimerTask(){
+         TimerTask task = new TimerTask(){
 
             @Override
-            public void run() {          
-                  capturaCpu();
-                  capturaRam();
-                  capturaDiscos();
-                  capturaTemp();
+            public void run() {
+                  Date momentoCaptura = new Date();
+                  capturaCpu(momentoCaptura);
+                  capturaRam(momentoCaptura);
+                  capturaDiscos(momentoCaptura);
+                  capturaTemp(momentoCaptura);
             }
         };
         
@@ -61,10 +62,10 @@ public class Dashboard {
     Componente compTemp; 
     List <Componente> listaDiscos;
     
-    Componente compCpuLocal;
-    Componente compRamLocal;
-    Componente compTempLocal;
-    List <Componente> listaDiscosLocal;
+//    Componente compCpuLocal;
+//    Componente compRamLocal;
+//    Componente compTempLocal;
+//    List <Componente> listaDiscosLocal;
     
     Looca looca = new Looca();
     
@@ -105,23 +106,23 @@ public class Dashboard {
         this.listaDiscos = disco;
     }
     
-    public void setCpuLocal(Componente cpu){
-        this.compCpuLocal = cpu;
-    }
+//    public void setCpuLocal(Componente cpu){
+//        this.compCpuLocal = cpu;
+//    }
+//    
+//    public void setRamLocal(Componente ram){
+//        this.compRamLocal = ram;
+//    }
+//    
+//    public void setTempLocal(Componente temp){
+//        this.compTempLocal = temp;
+//    }
+//    
+//    public void setListaDiscoLocal(List <Componente> discos){
+//        this.listaDiscosLocal = discos;
+//    }
     
-    public void setRamLocal(Componente ram){
-        this.compRamLocal = ram;
-    }
-    
-    public void setTempLocal(Componente temp){
-        this.compTempLocal = temp;
-    }
-    
-    public void setListaDiscoLocal(List <Componente> discos){
-        this.listaDiscosLocal = discos;
-    }
-    
-    public void capturaTemp() {
+     public void capturaTemp(Date momentoCaptura) {
       Double temperatura = looca.getTemperatura().getTemperatura();
 //      String msgTemperatura = temperatura.toString() + " ºC";
 //      System.out.printf("Temp: %s\n", msgTemperatura);
@@ -129,13 +130,13 @@ public class Dashboard {
       DadosCrud dadosCrud = new DadosCrud();
       dados.setFkComponente(compTemp.getIdComponente());
       dados.setRegistro(temperatura);
-      dados.setMomento(new Date());
+      dados.setMomento(momentoCaptura);
       dadosCrud.inserirDados(dados);
-      dados.setFkComponente(compTempLocal.getIdComponente());
+      //dados.setFkComponente(compTempLocal.getIdComponente());
       dadosCrud.inserirDadosLocal(dados);
     }
     
-    public void capturaRam(){
+    public void capturaRam(Date momentoCaptura){
         Long memoriaUsada = memoria.getEmUso();
         Double memoriaUsadaDouble = memoriaUsada.doubleValue();
         Double memoriaUsadaDoubleCon = memoriaUsadaDouble / 1024 / 1024 / 1024;
@@ -148,13 +149,13 @@ public class Dashboard {
         DadosCrud dadosCrud = new DadosCrud();
         dados.setFkComponente(compRam.getIdComponente());
         dados.setRegistro(porcentagem);
-        dados.setMomento(new Date());
+        dados.setMomento(momentoCaptura);
         dadosCrud.inserirDados(dados);
-        dados.setFkComponente(compRamLocal.getIdComponente());
+        //dados.setFkComponente(compRamLocal.getIdComponente());
         dadosCrud.inserirDadosLocal(dados);
     }
     
-    public void capturaCpu(){
+    public void capturaCpu(Date momentoCaptura){
         Double usoCpu = processador.getUso();
         usoCpu = Math.round(usoCpu * 10.0) / 10.0;
         String txtUsoCpu = processador.getNome() + ":\n" + usoCpu.toString() + " %";
@@ -163,15 +164,15 @@ public class Dashboard {
         DadosCrud dadosCrud = new DadosCrud();
         dados.setFkComponente(compCpu.getIdComponente());
         dados.setRegistro(usoCpu);
-        dados.setMomento(new Date());
+        dados.setMomento(momentoCaptura);
         dadosCrud.inserirDados(dados);
-        dados.setFkComponente(compCpuLocal.getIdComponente());
+        //dados.setFkComponente(compCpuLocal.getIdComponente());
         dadosCrud.inserirDadosLocal(dados);
         
         
     }
     
-    public void capturaDiscos() {
+    public void capturaDiscos(Date momentoCaptura) {
         
                 String txtDiscoUsado = "";
                 for(Volume volume : volumes){
@@ -196,19 +197,19 @@ public class Dashboard {
                             DadosCrud dadosCrud = new DadosCrud();
                             dados.setFkComponente(disco.getIdComponente());
                             dados.setRegistro(porcentagem);
-                            dados.setMomento(new Date());
+                            dados.setMomento(momentoCaptura);
                             dadosCrud.inserirDados(dados);
-                            for(Componente discoLocal : listaDiscosLocal){
-                                if(discoLocal.getNomeComponente().equals(disco.getNomeComponente())){
-                                    dados.setFkComponente(discoLocal.getIdComponente());
-                                    dadosCrud.inserirDadosLocal(dados);
-                                }
-                            }
+//                            for(Componente discoLocal : listaDiscosLocal){
+//                                if(discoLocal.getNomeComponente().equals(disco.getNomeComponente())){
+//                                    dados.setFkComponente(discoLocal.getIdComponente());
+//                                    dadosCrud.inserirDadosLocal(dados);
+//                                }
+//                            }
                         }
                     }
-                    
                     
                 }
     }
     
 }
+

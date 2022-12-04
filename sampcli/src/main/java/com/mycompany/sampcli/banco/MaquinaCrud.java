@@ -21,13 +21,13 @@ public class MaquinaCrud {
 
     public void inserir(Maquina maquina){
         
-        ConexaoDocker conexaoDocker = new ConexaoDocker();
+//        ConexaoDocker conexaoDocker = new ConexaoDocker();
         Conexao conexao = new Conexao();
         JdbcTemplate cursor = conexao.getConnection();
-        JdbcTemplate cursorDocker = conexaoDocker.getConnection();
+//        JdbcTemplate cursorDocker = conexaoDocker.getConnection();
         
         cursor.update(String.format("INSERT INTO Maquina (serialMaquina, nome, fkEmpresa) VALUES ('%s', '%s', %d);", maquina.getSerialMaquina(), maquina.getNome(), maquina.getFkEmpresa()));
-        cursorDocker.update(String.format("INSERT INTO Maquina (serialMaquina, nome) VALUES ('%s', '%s')", maquina.getSerialMaquina(), maquina.getNome(), maquina.getFkEmpresa()));
+//        cursorDocker.update(String.format("INSERT INTO Maquina (serialMaquina, nome) VALUES ('%s', '%s')", maquina.getSerialMaquina(), maquina.getNome(), maquina.getFkEmpresa()));
     }
     
     public List<Maquina> selectTodasMaquinas(){
